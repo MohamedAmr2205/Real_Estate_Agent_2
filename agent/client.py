@@ -155,10 +155,22 @@ async def sampling_callback(
 # SECTION 6 — main(): connect, negotiate, exercise every tool
 # ---------------------------------------------------------------------------
 async def main() -> None:
-    server_script = str(Path(__file__).resolve().parent.parent / "mcp_server" / "server.py")
-    server_params = StdioServerParameters(command=sys.executable, args=[server_script])
+    transport_mode = sys.argv[1] if len(sys.argv) > 1 else "stdio"
 
-    async with stdio_client(server_params) as (read, write):
+    if transport_mode == "http":
+        # SECTION 10 counterpart: connects to a server already running
+        # via `python server.py streamable-http` on a separate process,
+        # instead of spawning it locally over stdio. This is the
+        # deployment-shaped path (multi-office agents hitting one
+        # running server instance).
+        from mcp.client.streamable_http import streamablehttp_client
+        context_manager = streamablehttp_client("http://127.0.0.1:8000/mcp")
+    else:
+        server_script = str(Path(__file__).resolve().parent.parent / "mcp_server" / "server.py")
+        server_params = StdioServerParameters(command=sys.executable, args=[server_script])
+        context_manager = stdio_client(server_params)
+
+    async with context_manager as (read, write, *_):
         session_kwargs = {"message_handler": message_handler}
         if SUPPORTS_ELICITATION:
             session_kwargs["elicitation_callback"] = elicitation_callback
