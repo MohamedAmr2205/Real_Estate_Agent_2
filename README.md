@@ -1,8 +1,8 @@
-# Meridian Realty — MCP Server Lab
+# Cornerstone Realty — MCP Server Lab
 
 ## The Company
 
-Meridian Realty is a mid-sized real estate brokerage with agents and
+Cornerstone Realty is a mid-sized real estate brokerage with agents and
 brokers working across multiple properties, clients, and offer
 negotiations at once. Agents want an AI assistant that can search
 listings, schedule showings, draft compliant marketing copy, and track
