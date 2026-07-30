@@ -3,14 +3,14 @@ Shared SQLite connection helper.
 
 All tool handlers import `get_connection()` from here instead of opening
 their own connections, so the whole server talks to ONE database file
-consistently (db/meridian.db, built from db/schema.sql + db/seed_data.sql).
+consistently (db/database.sqlite, built from db/schema.sql + db/seed.sql).
 """
 
 import sqlite3
 from pathlib import Path
 
-# Path to the sqlite file produced from db/schema.sql + db/seed_data.sql
-DB_PATH = Path(__file__).resolve().parent.parent / "db" / "meridian.db"
+# Path to the sqlite file produced from db/schema.sql + db/seed.sql
+DB_PATH = Path(__file__).resolve().parent.parent / "db" / "database.sqlite"
 
 
 def get_connection() -> sqlite3.Connection:
