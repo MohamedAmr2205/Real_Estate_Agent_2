@@ -15,7 +15,8 @@ reading the whole file top to bottom.
   SECTION 7: assign_listing_agent                      (NOTIFICATIONS)
   SECTION 8: generate_cma                              (PROGRESS TRACKING)
   SECTION 9: explain_offer_risk                        (SAMPLING)
-  SECTION 10: Entrypoint                                (TRANSPORT: stdio)
+  SECTION 10: search_knowledge_base                    (ADD-ON LAB: RAG)
+  SECTION 11: Entrypoint                                (TRANSPORT: stdio)
 
 Run locally (development transport):
     python server.py
@@ -38,6 +39,7 @@ from tools import assign_listing_agent as assign_logic
 from tools import generate_cma as cma_logic
 from tools import explain_offer_risk as risk_logic
 from prompts import listing_prompts
+from rag import knowledge_base as kb_logic
 
 
 # ---------------------------------------------------------------------------
@@ -73,6 +75,9 @@ mcp = FastMCP(
         "confirmation via elicitation before completing."
     ),
 )
+
+# Load the in-memory property-notes index once at startup (Add-On Lab).
+kb_logic.index_property_notes()
 
 
 # ---------------------------------------------------------------------------
@@ -274,7 +279,32 @@ async def explain_offer_risk(offer_id: int, ctx: Context) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# SECTION 10 — Entrypoint (TRANSPORT)
+# SECTION 10 — search_knowledge_base : ADD-ON LAB (Option A — RAG)
+# ---------------------------------------------------------------------------
+# Searches unstructured property history notes (walkthrough observations,
+# negotiation context) instead of an agent or the model reading every
+# note on a property. Backed by a dependency-free BM25 keyword search
+# (see rag/keyword_search.py) — no embeddings, no API key, no new
+# pip install. Some notes are commercially sensitive (a seller's
+# confidential floor price), so — consistent with accept_offer — the
+# role check happens in the handler (rag/knowledge_base.py), never
+# trusting a role passed in the query itself.
+@mcp.tool()
+def search_knowledge_base(query: str, property_id: int, caller_agent_id: int,
+                           top_k: int = 3) -> dict:
+    """
+    Search unstructured property history notes (walkthrough observations,
+    negotiation context) for a specific property. Notes tagged as
+    requiring Broker access are filtered out for non-Broker callers.
+    """
+    try:
+        return kb_logic.search_knowledge_base(query, property_id, caller_agent_id, top_k)
+    except ValueError as e:
+        return {"error": str(e)}
+
+
+# ---------------------------------------------------------------------------
+# SECTION 11 — Entrypoint (TRANSPORT)
 # ---------------------------------------------------------------------------
 # Development transport: stdio. This is intentionally the first working
 # transport (see early commit history). The Streamable HTTP transport for
