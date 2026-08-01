@@ -16,6 +16,7 @@ Sections:
   SECTION 4: Elicitation callback — a real human-in-the-loop pause (CLI input)
   SECTION 5: Sampling callback — the CLIENT's own model does the reasoning
   SECTION 6: main() — connects, negotiates, and exercises every tool
+             (including the Add-On Lab's search_knowledge_base tool)
 """
 
 import asyncio
@@ -255,6 +256,31 @@ async def main() -> None:
                     "explain_offer_risk", {"offer_id": 3}
                 )
                 print(risk_result.content[0].text, "\n")
+
+                # --- ADD-ON LAB: search_knowledge_base (RAG, Option A) -----------
+                print("=== search_knowledge_base — regular agent asks about seller's floor price ===")
+                kb_result_1 = await session.call_tool(
+                    "search_knowledge_base",
+                    {"query": "seller lowest price floor accept", "property_id": 1,
+                     "caller_agent_id": 1, "top_k": 3},
+                )
+                print(kb_result_1.content[0].text, "\n")
+
+                print("=== search_knowledge_base — SAME question, asked by the Broker ===")
+                kb_result_2 = await session.call_tool(
+                    "search_knowledge_base",
+                    {"query": "seller lowest price floor accept", "property_id": 1,
+                     "caller_agent_id": 4, "top_k": 3},
+                )
+                print(kb_result_2.content[0].text, "\n")
+
+                print("=== search_knowledge_base — a question only this tool can answer ===")
+                kb_result_3 = await session.call_tool(
+                    "search_knowledge_base",
+                    {"query": "roof condition inspection", "property_id": 1,
+                     "caller_agent_id": 1, "top_k": 3},
+                )
+                print(kb_result_3.content[0].text, "\n")
 
             print("=== Demo run complete ===")
 

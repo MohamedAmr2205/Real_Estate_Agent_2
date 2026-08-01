@@ -21,7 +21,7 @@ server, the role check happens in the handler, not the schema.
 """
 
 from db import get_connection
-from keyword_search import KeywordStore
+from .keyword_search import KeywordStore
 
 knowledge_store = KeywordStore()
 
