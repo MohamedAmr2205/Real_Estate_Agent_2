@@ -24,6 +24,12 @@ import os
 import sys
 from pathlib import Path
 
+# Ensure the package root is importable when running this script directly.
+ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
+from memory.short_term import ShortTermMemory
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from mcp.shared.context import RequestContext
@@ -156,6 +162,7 @@ async def sampling_callback(
 # SECTION 6 — main(): connect, negotiate, exercise every tool
 # ---------------------------------------------------------------------------
 async def main() -> None:
+    memory = ShortTermMemory(max_turns=20)
     transport_mode = sys.argv[1] if len(sys.argv) > 1 else "stdio"
 
     if transport_mode == "http":
@@ -218,10 +225,18 @@ async def main() -> None:
             if SUPPORTS_ELICITATION:
                 # --- SECTION 5: ELICITATION (offer #3-style: below threshold) --
                 print("=== submit_offer — a below-threshold offer (triggers elicitation) ===")
+                memory.add_turn(customer_id=5, role="user", content={
+                    "tool": "submit_offer",
+                    "property_id": 1,
+                    "offer_amount": 3000000
+})
                 offer_result = await session.call_tool(
                     "submit_offer",
                     {"property_id": 1, "customer_id": 5, "offer_amount": 3000000},
                 )
+                memory.add_turn(customer_id=5, role="tool", content=offer_result.content[0].text)
+                print(f"[MEMORY] turns for customer 5: {len(memory.get_turns(5))}")  # ← ضيف دا عشان تشوف إن الـ memory شغالة
+
                 print(offer_result.content[0].text, "\n")
 
                 # --- SECTION 7: NOTIFICATIONS -----------------------------------
