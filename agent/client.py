@@ -30,6 +30,7 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
 from memory.short_term import ShortTermMemory
+from memory.router import route_overflow
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from mcp.shared.context import RequestContext
@@ -236,6 +237,9 @@ async def main() -> None:
                 )
                 memory.add_turn(customer_id=5, role="tool", content=offer_result.content[0].text)
                 print(f"[MEMORY] turns for customer 5: {len(memory.get_turns(5))}")  # ← ضيف دا عشان تشوف إن الـ memory شغالة
+                
+                old_turns = memory.get_turns(customer_id=5)
+                promoted, dropped = route_overflow(old_turns)
 
                 print(offer_result.content[0].text, "\n")
 
