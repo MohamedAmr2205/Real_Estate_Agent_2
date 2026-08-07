@@ -1,0 +1,11 @@
+[
+  {
+    "query": "What is the best way to index documents in a RAG system?",
+    "expected_chunk_ids": ["chunk-123", "chunk-456"],
+    "expected_answer": "Use a vector store with dense embeddings and optional metadata filtering.",
+    "context": "The RAG system should use a vector store, chunking, embeddings, and retrieval.",
+    "metadata_filter": {
+      "source": "documentation.md"
+    }
+  }
+]
