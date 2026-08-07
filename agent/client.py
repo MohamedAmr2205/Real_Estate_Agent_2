@@ -31,6 +31,7 @@ if str(ROOT_DIR) not in sys.path:
 
 from memory.short_term import ShortTermMemory
 from memory.router import route_overflow
+from memory.episodic_store import EpisodicStore
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 from mcp.shared.context import RequestContext
@@ -164,6 +165,7 @@ async def sampling_callback(
 # ---------------------------------------------------------------------------
 async def main() -> None:
     memory = ShortTermMemory(max_turns=20)
+    episodic = EpisodicStore()  
     transport_mode = sys.argv[1] if len(sys.argv) > 1 else "stdio"
 
     if transport_mode == "http":
@@ -240,6 +242,10 @@ async def main() -> None:
                 
                 old_turns = memory.get_turns(customer_id=5)
                 promoted, dropped = route_overflow(old_turns)
+                for turn in promoted:
+                 episodic.add(turn, reason="promoted by router")
+
+                 print(f"[EPISODIC] total episodes for customer 5: {len(episodic.get(5))}")
 
                 print(offer_result.content[0].text, "\n")
 
