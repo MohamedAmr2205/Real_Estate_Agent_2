@@ -1,11 +1,122 @@
 [
   {
-    "query": "What is the best way to index documents in a RAG system?",
-    "expected_chunk_ids": ["chunk-123", "chunk-456"],
-    "expected_answer": "Use a vector store with dense embeddings and optional metadata filtering.",
-    "context": "The RAG system should use a vector store, chunking, embeddings, and retrieval.",
-    "metadata_filter": {
-      "source": "documentation.md"
-    }
+    "id": "Q01",
+    "category": "general",
+    "note": "Naive RAG handles this fine — straightforward factual lookup",
+    "query": "What documents are required to submit a property offer?",
+    "expected_chunk_ids": [],
+    "expected_answer": "To submit an offer, the buyer must provide a signed offer form, proof of funds or mortgage pre-approval, and a valid national ID.",
+    "context": "Offer Submission Requirements (Policy 2.1): All offers must be accompanied by a signed offer form, proof of funds or a mortgage pre-approval letter dated within 30 days, and a copy of the buyer's national ID. Incomplete submissions will not be forwarded to the seller.",
+    "metadata_filter": { "section": "offer_submission" }
+  },
+  {
+    "id": "Q02",
+    "category": "general",
+    "note": "Naive RAG handles this fine — standard fasting/prep question",
+    "query": "What is the standard commission rate for listing agents in Meridian Realty?",
+    "expected_chunk_ids": [],
+    "expected_answer": "The standard listing agent commission is 2.5% of the final sale price.",
+    "context": "Commission Structure (Policy 1.3): The standard commission for a listing agent is 2.5% of the final agreed sale price. The buyer's agent receives 2.0%. Both are paid at closing from the seller's proceeds.",
+    "metadata_filter": { "section": "commission" }
+  },
+  {
+    "id": "Q03",
+    "category": "general",
+    "note": "Naive RAG handles this fine — policy lookup",
+    "query": "How long does a seller have to respond to an offer?",
+    "expected_chunk_ids": [],
+    "expected_answer": "Sellers have 48 hours to respond to any submitted offer before it expires automatically.",
+    "context": "Offer Response Window (Policy 2.4): Once an offer is formally submitted, the seller has 48 hours to accept, reject, or counter. Offers not responded to within this window expire automatically and the buyer's deposit is returned in full.",
+    "metadata_filter": { "section": "offer_response" }
+  },
+  {
+    "id": "Q04",
+    "category": "exact_identifier",
+    "note": "Hybrid search wins here — exact policy code '3.2b' must be found",
+    "query": "What does Policy 3.2b say about below-threshold offers?",
+    "expected_chunk_ids": [],
+    "expected_answer": "Policy 3.2b requires broker sign-off for any offer below 85% of the list price before the offer is forwarded to the seller.",
+    "context": "Policy 3.2b — Below-Threshold Offer Protocol: Any offer submitted at less than 85% of the current list price must receive written approval from a licensed broker before being forwarded to the seller. The listing agent must document the broker's sign-off in the transaction record within 24 hours.",
+    "metadata_filter": { "section": "policy_3_2b" }
+  },
+  {
+    "id": "Q05",
+    "category": "exact_identifier",
+    "note": "Hybrid search wins here — exact property ID and clause reference",
+    "query": "What are the escrow terms in Clause 7 of the Smouha villa contract?",
+    "expected_chunk_ids": [],
+    "expected_answer": "Clause 7 requires a 10% escrow deposit within 5 business days of offer acceptance, held by a licensed escrow agent until closing.",
+    "context": "Clause 7 — Escrow Deposit (Property 1, Luxury Villa Smouha): The buyer shall deposit 10% of the agreed purchase price into an escrow account managed by a licensed escrow agent within 5 business days of the seller's written acceptance. Failure to fund escrow within this window voids the agreement and forfeits the buyer's good-faith deposit.",
+    "metadata_filter": { "source": "smouha_villa_contract.txt", "section": "clause_7" }
+  },
+  {
+    "id": "Q06",
+    "category": "exact_identifier",
+    "note": "Hybrid search wins here — exact section number needed",
+    "query": "What does Section 4.1 of the agency agreement say about dual agency?",
+    "expected_chunk_ids": [],
+    "expected_answer": "Section 4.1 prohibits dual agency without written consent from both buyer and seller, and requires full disclosure of any conflict of interest.",
+    "context": "Section 4.1 — Dual Agency Disclosure: Meridian Realty agents are prohibited from representing both buyer and seller in the same transaction without obtaining prior written consent from both parties. Where dual agency is permitted, the agent must provide a full written disclosure of any potential conflict of interest before any negotiation begins.",
+    "metadata_filter": { "section": "section_4_1" }
+  },
+  {
+    "id": "Q07",
+    "category": "multi_hop",
+    "note": "Agentic RAG wins — needs decomposition: property status + offer rules + risk policy",
+    "query": "A buyer wants to offer 3,200,000 on the Smouha villa listed at 5,000,000. What risk checks apply and what approvals are needed before this offer can reach the seller?",
+    "expected_chunk_ids": [],
+    "expected_answer": "The offer is 64% of list price, well below the 85% threshold in Policy 3.2b, so broker sign-off is mandatory. The agent must also verify the buyer's proof of funds and submit the below-threshold justification form.",
+    "context": "Policy 3.2b — Below-Threshold Offer Protocol: Any offer below 85% of list price requires broker written approval before forwarding to seller.\n\nOffer Risk Tiers (Policy 3.3): Offers below 70% of list price are classified as Tier 1 High Risk and require both broker approval and a written buyer justification memo.\n\nOffer Submission Requirements (Policy 2.1): All offers must include proof of funds or mortgage pre-approval.\n\nBelow-Threshold Form (Annex B): Agents must complete Annex B (below-threshold justification) for all Tier 1 offers and attach it to the transaction record.",
+    "metadata_filter": null
+  },
+  {
+    "id": "Q08",
+    "category": "multi_hop",
+    "note": "Agentic RAG wins — needs two retrieval rounds: seller history + negotiation policy",
+    "query": "The seller of property 1 has rejected two offers already. What negotiation strategy does Meridian policy recommend, and what is the minimum counter-offer guidance?",
+    "expected_chunk_ids": [],
+    "expected_answer": "After two rejections, Policy 5.2 recommends a direct broker-to-broker call to establish the seller's true floor price before submitting a third offer. The counter-offer should not be below 90% of the seller's last stated acceptable price.",
+    "context": "Negotiation Protocol After Repeated Rejections (Policy 5.2): If a seller has rejected two or more offers within a 30-day window, the listing agent must arrange a broker-to-broker call before any further offers are submitted. The purpose is to surface the seller's actual floor price without committing the buyer.\n\nCounter-Offer Floor Guidance (Policy 5.4): Agents should not advise buyers to submit counters below 90% of the seller's last communicated acceptable figure. Submitting low-ball counters after repeated rejections risks deal collapse and reputational damage to the agency.",
+    "metadata_filter": null
+  },
+  {
+    "id": "Q09",
+    "category": "multi_hop",
+    "note": "Agentic RAG wins — multi-part question needing property details + inspection + closing checklist",
+    "query": "For a villa in Smouha with a flagged roof inspection, what pre-closing steps must the agent complete before the deal can be finalized?",
+    "expected_chunk_ids": [],
+    "expected_answer": "The agent must obtain a certified roof inspection report, share it with the buyer, and get written buyer acknowledgment. If repair cost exceeds 50,000 EGP, Policy 6.3 requires renegotiation or a seller-funded repair escrow before closing.",
+    "context": "Pre-Closing Inspection Protocol (Policy 6.1): For any property where a structural or roof concern was noted during walkthrough, the listing agent must commission a certified inspection report before the closing date is set.\n\nBuyer Disclosure Requirement (Policy 6.2): The certified inspection report must be shared with the buyer's agent within 48 hours of receipt. The buyer must provide written acknowledgment before the closing process proceeds.\n\nRepair Escrow Trigger (Policy 6.3): If the inspection estimates repair costs exceeding 50,000 EGP, the transaction cannot close until either the seller funds a repair escrow of the estimated amount or the purchase price is renegotiated to reflect the defect.",
+    "metadata_filter": null
+  },
+  {
+    "id": "Q10",
+    "category": "metadata_filter",
+    "note": "Tests metadata pre-filtering — only Alexandria properties should be returned",
+    "query": "What properties are available in Alexandria?",
+    "expected_chunk_ids": [],
+    "expected_answer": "Available Alexandria properties include the Luxury Villa in Smouha (5,000,000 EGP) and the Beach House in Stanley (4,200,000 EGP).",
+    "context": "Property Listing — Luxury Villa, Smouha, Alexandria: 5 bed / 4 bath, 3000 sqft, asking price 5,000,000 EGP. Status: Available.\n\nProperty Listing — Beach House, Stanley, Alexandria: 3 bed / 2 bath, 2500 sqft, asking price 4,200,000 EGP. Status: Available.",
+    "metadata_filter": { "city": "Alexandria", "status": "Available" }
+  },
+  {
+    "id": "Q11",
+    "category": "self_rag_fail",
+    "note": "Self-RAG should FAIL — retrieved context is about car rentals, not real estate",
+    "query": "What is the standard closing timeline for a residential sale?",
+    "expected_chunk_ids": [],
+    "expected_answer": "The standard closing timeline is 30 days from offer acceptance.",
+    "context": "Car rental terms and conditions: vehicles must be returned with a full tank. Late returns incur a daily surcharge. Drivers must be over 21 with a valid license.",
+    "metadata_filter": null
+  },
+  {
+    "id": "Q12",
+    "category": "self_rag_fail",
+    "note": "Self-RAG groundedness FAIL — answer contains facts not in context",
+    "query": "What is the penalty for missing the escrow deadline?",
+    "expected_chunk_ids": [],
+    "expected_answer": "Missing the escrow deadline results in a 5,000 EGP daily fine and automatic deal cancellation after 7 days, plus a 2% penalty fee charged to the buyer.",
+    "context": "Escrow Deadline (Policy 7.1): Failure to fund escrow within the required window voids the purchase agreement.",
+    "metadata_filter": null
   }
 ]
