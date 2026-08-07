@@ -49,10 +49,6 @@ from mcp.types import (
 # ---------------------------------------------------------------------------
 # SECTION 1 — .env loading + Groq client
 # ---------------------------------------------------------------------------
-# Groq is used here because it has a genuinely free tier (no credit card
-# required) — this is purely a development-cost choice. The server has no
-# dependency on which provider the client uses; sampling/createMessage
-# just asks "the client's model", whatever that happens to be.
 def _load_env_file(path: Path) -> None:
     """Minimal .env loader — avoids adding python-dotenv as a hard dependency."""
     if not path.exists():
@@ -80,26 +76,15 @@ except ImportError:
 
 
 # ---------------------------------------------------------------------------
-# CONFIG — flip this to demo the "no elicitation support" fallback path
-# (Issue #3: capability negotiation). When False, this client does not
-# pass an elicitation_callback at all, so the server-side ctx.elicit()
-# call in submit_offer would fail for risky offers — so this client
-# simply avoids calling submit_offer/accept_offer in that mode.
+# CONFIG
 # ---------------------------------------------------------------------------
 SUPPORTS_ELICITATION = True
 
 
 # ---------------------------------------------------------------------------
-# SECTION 3 — NOTIFICATIONS: react to tools/list_changed
+# SECTION 3 — NOTIFICATIONS
 # ---------------------------------------------------------------------------
 async def message_handler(message) -> None:
-    """
-    Generic notification handler passed to ClientSession. When the server
-    fires notifications/tools/list_changed (see assign_listing_agent in
-    server.py), this prints an explicit log line so it's visible in the
-    demo transcript that the client actually reacted, rather than the
-    tool set silently being different next time we happened to check.
-    """
     method = getattr(message.root, "method", None) if hasattr(message, "root") else None
     if method == "notifications/tools/list_changed":
         print("\n[NOTIFICATION RECEIVED] tools/list_changed — "
@@ -107,17 +92,11 @@ async def message_handler(message) -> None:
 
 
 # ---------------------------------------------------------------------------
-# SECTION 4 — ELICITATION callback: real human-in-the-loop pause
+# SECTION 4 — ELICITATION callback
 # ---------------------------------------------------------------------------
 async def elicitation_callback(
     context: RequestContext, params: ElicitRequestParams
 ) -> ElicitResult:
-    """
-    Called when the server invokes elicitation/create (see submit_offer
-    in server.py for a below-threshold offer). This genuinely pauses and
-    waits for a human at the keyboard to type a decision — it does not
-    auto-accept, which would defeat the point of the concern.
-    """
     print(f"\n[ELICITATION REQUEST] {params.message}")
     answer = input("Confirm this offer should be submitted? (y/n): ").strip().lower()
 
@@ -128,22 +107,14 @@ async def elicitation_callback(
 
 
 # ---------------------------------------------------------------------------
-# SECTION 5 — SAMPLING callback: the CLIENT's own model reasons, not the server's
+# SECTION 5 — SAMPLING callback
 # ---------------------------------------------------------------------------
 async def sampling_callback(
     context: RequestContext, params: CreateMessageRequestParams
 ) -> CreateMessageResult:
-    """
-    Called when the server invokes sampling/createMessage (see
-    explain_offer_risk in server.py). The server never runs its own LLM —
-    this callback is where the actual reasoning happens, using the
-    client's own model (Llama 3.3 70B via Groq's free API), not a model
-    the server owns.
-    """
     prompt_text = params.messages[0].content.text
 
     if _groq_client is None:
-        # No API key configured — degrade honestly instead of faking a result.
         text = ("[No GROQ_API_KEY configured — set one in .env to get "
                 "a real model-generated risk analysis here.]")
     else:
@@ -163,21 +134,26 @@ async def sampling_callback(
 
 
 # ---------------------------------------------------------------------------
-# SECTION 6 — main(): connect, negotiate, exercise every tool
+# SECTION 6 — main()
 # ---------------------------------------------------------------------------
 async def main() -> None:
-    memory = ShortTermMemory(max_turns=20)
-    episodic = EpisodicStore()  
+
+    # ----------------------------------------------------------------
+    # MEMORY SETUP — إنشاء واحدة من كل نوع (مش اتنين)
+    # ----------------------------------------------------------------
+    memory = ShortTermMemory(max_turns=6)  # صغير عشان نوضح الـ overflow
     episodic = EpisodicStore()
-    semantic = SemanticStore()  
+    semantic = SemanticStore()
+
+    # ----------------------------------------------------------------
+    # SCRATCHPAD — منفصل عن البافر، مش بيتمسح لما الـ buffer يـ prune
+    # ----------------------------------------------------------------
+    memory.set_goal(5, "Find villa under 5M in Alexandria, close by August")
+    print(f"[SCRATCHPAD] goal set for customer 5: {memory.get_goal(5)}\n")
+
     transport_mode = sys.argv[1] if len(sys.argv) > 1 else "stdio"
 
     if transport_mode == "http":
-        # SECTION 10 counterpart: connects to a server already running
-        # via `python server.py streamable-http` on a separate process,
-        # instead of spawning it locally over stdio. This is the
-        # deployment-shaped path (multi-office agents hitting one
-        # running server instance).
         from mcp.client.streamable_http import streamablehttp_client
         context_manager = streamablehttp_client("http://127.0.0.1:8000/mcp")
     else:
@@ -189,7 +165,7 @@ async def main() -> None:
         session_kwargs = {"message_handler": message_handler}
         if SUPPORTS_ELICITATION:
             session_kwargs["elicitation_callback"] = elicitation_callback
-        session_kwargs["sampling_callback"] = sampling_callback  # sampling always on
+        session_kwargs["sampling_callback"] = sampling_callback
 
         async with ClientSession(read, write, **session_kwargs) as session:
 
@@ -204,12 +180,6 @@ async def main() -> None:
             tools = await session.list_tools()
             tool_names = [t.name for t in tools.tools]
             print(f"=== AVAILABLE TOOLS ({len(tool_names)}) ===\n{tool_names}\n")
-
-            if not SUPPORTS_ELICITATION and "submit_offer" in tool_names:
-                print("[CAPABILITY CHECK] This client did not declare "
-                      "elicitation support, so it will NOT call submit_offer "
-                      "or accept_offer even though the server lists them — "
-                      "falling back to read-only tools only.\n")
 
             # --- SECTION 4: read-only tools ---------------------------------
             print("=== search_properties(city='Alexandria', status='Available') ===")
@@ -230,26 +200,49 @@ async def main() -> None:
             print(cma_result.content[0].text, "\n")
 
             if SUPPORTS_ELICITATION:
-                # --- SECTION 5: ELICITATION (offer #3-style: below threshold) --
-                print("=== submit_offer — a below-threshold offer (triggers elicitation) ===")
+
+                # ----------------------------------------------------------------
+                # MEMORY DEMO — ضيف small talk الأول عشان الـ router يعمله drop
+                # ----------------------------------------------------------------
+                print("=== MEMORY DEMO: adding turns to show promote vs drop ===")
+                memory.add_turn(customer_id=5, role="user", content="hello thanks for your help")
+                memory.add_turn(customer_id=5, role="user", content="okay sounds good")
+                memory.add_turn(customer_id=5, role="user", content="hi there")
+                memory.add_turn(customer_id=5, role="user", content="great bye")
+
+                # ضيف turns مهمة
                 memory.add_turn(customer_id=5, role="user", content={
                     "tool": "submit_offer",
                     "property_id": 1,
                     "offer_amount": 3000000
-})
+                })
+
+                # --- SECTION 5: ELICITATION -----------------------------------
+                print("=== submit_offer — a below-threshold offer (triggers elicitation) ===")
                 offer_result = await session.call_tool(
                     "submit_offer",
                     {"property_id": 1, "customer_id": 5, "offer_amount": 3000000},
                 )
                 memory.add_turn(customer_id=5, role="tool", content=offer_result.content[0].text)
-                print(f"[MEMORY] turns for customer 5: {len(memory.get_turns(5))}")  # ← ضيف دا عشان تشوف إن الـ memory شغالة
-                
+
+                print(f"\n[MEMORY] total turns for customer 5: {len(memory.get_turns(5))}")
+                print(f"[SCRATCHPAD] goal still intact after buffer fills: {memory.get_goal(5)}")
+
+                # ----------------------------------------------------------------
+                # PROMOTE-OR-DROP — يشتغل لما البافر يتملى
+                # ----------------------------------------------------------------
+                print(f"\n[ROUTER] buffer full ({len(memory.get_turns(5))}/{memory.max_turns}) — running promote-or-drop...")
                 old_turns = memory.get_turns(customer_id=5)
                 promoted, dropped = route_overflow(old_turns)
-                for turn in promoted:
-                 episodic.add(turn, reason="promoted by router")
 
-                 print(f"[EPISODIC] total episodes for customer 5: {len(episodic.get(5))}")
+                print(f"[ROUTER] promoted={len(promoted)} dropped={len(dropped)}")
+
+                # ابعت المهمين للـ episodic store
+                for turn in promoted:
+                    episodic.add(turn, reason="promoted by router")
+
+                print(f"[EPISODIC] total episodes for customer 5: {len(episodic.get(5))}")
+                print(f"[SCRATCHPAD] goal still safe after routing: {memory.get_goal(5)}\n")
 
                 print(offer_result.content[0].text, "\n")
 
@@ -261,12 +254,11 @@ async def main() -> None:
                 )
                 print(assign_result.content[0].text, "\n")
 
-                # re-fetch tools after the notification to show the reaction
                 tools_after = await session.list_tools()
                 print(f"Tool list after notification: "
                       f"{[t.name for t in tools_after.tools]}\n")
 
-                # --- SECTION 6: DEFENSIVE TOOL DESIGN ---------------------------
+                # --- SECTION 6: DEFENSIVE TOOL DESIGN --------------------------
                 print("=== accept_offer — offer 1, called by the listing agent ===")
                 accept_result = await session.call_tool(
                     "accept_offer", {"offer_id": 1, "caller_agent_id": 1}
@@ -279,14 +271,14 @@ async def main() -> None:
                 )
                 print(bad_accept.content[0].text, "\n")
 
-                # --- SECTION 9: SAMPLING -----------------------------------------
+                # --- SECTION 9: SAMPLING ----------------------------------------
                 print("=== explain_offer_risk(offer_id=3) ===")
                 risk_result = await session.call_tool(
                     "explain_offer_risk", {"offer_id": 3}
                 )
                 print(risk_result.content[0].text, "\n")
 
-                # --- ADD-ON LAB: search_knowledge_base (RAG, Option A) -----------
+                # --- ADD-ON LAB: search_knowledge_base --------------------------
                 print("=== search_knowledge_base — regular agent asks about seller's floor price ===")
                 kb_result_1 = await session.call_tool(
                     "search_knowledge_base",
@@ -310,13 +302,34 @@ async def main() -> None:
                      "caller_agent_id": 1, "top_k": 3},
                 )
                 print(kb_result_3.content[0].text, "\n")
-                
-             # --- MEMORY: Consolidation pass ---
-            consolidate(customer_id=5, episodic=episodic, semantic=semantic)
-            print(f"[SEMANTIC] budget for customer 5: {semantic.get_fact(5, 'budget')}")
-            print(f"[SEMANTIC] history: {semantic.get_history(5, 'budget')}")
 
-            print("=== Demo run complete ===")
+            # ----------------------------------------------------------------
+            # CONSOLIDATION — pass دوري منفصل عن الـ router
+            # ----------------------------------------------------------------
+            print("=== CONSOLIDATION PASS (periodic, separate from router) ===")
+            consolidate(customer_id=5, episodic=episodic, semantic=semantic)
+
+            print(f"[SEMANTIC] budget for customer 5: {semantic.get_fact(5, 'budget')}")
+            print(f"[SEMANTIC] full history: {semantic.get_history(5, 'budget')}")
+
+            # ----------------------------------------------------------------
+            # CONFLICT DEMO — غير الـ budget وشوف الـ versioning
+            # ----------------------------------------------------------------
+            print("\n=== CONFLICT DEMO: customer updates budget ===")
+            memory.add_turn(customer_id=5, role="user",
+                            content="actually my budget is 4500000 now")
+            new_turns = memory.get_turns(customer_id=5)
+            promoted2, _ = route_overflow(new_turns)
+            for turn in promoted2:
+                episodic.add(turn, reason="budget update")
+
+            consolidate(customer_id=5, episodic=episodic, semantic=semantic)
+            print(f"[SEMANTIC] updated budget: {semantic.get_fact(5, 'budget')}")
+            print(f"[SEMANTIC] full version history:")
+            for f in semantic.get_history(5, 'budget'):
+                print(f"  → value='{f.value}' superseded={f.superseded} ts={f.timestamp[:19]}")
+
+            print("\n=== Demo run complete ===")
 
 
 if __name__ == "__main__":
