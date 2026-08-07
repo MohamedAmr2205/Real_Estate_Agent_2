@@ -31,6 +31,8 @@ if str(ROOT_DIR) not in sys.path:
 
 from memory.short_term import ShortTermMemory
 from memory.router import route_overflow
+from memory.semantic_store import SemanticStore
+from memory.consolidation import consolidate
 from memory.episodic_store import EpisodicStore
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
@@ -166,6 +168,8 @@ async def sampling_callback(
 async def main() -> None:
     memory = ShortTermMemory(max_turns=20)
     episodic = EpisodicStore()  
+    episodic = EpisodicStore()
+    semantic = SemanticStore()  
     transport_mode = sys.argv[1] if len(sys.argv) > 1 else "stdio"
 
     if transport_mode == "http":
@@ -306,6 +310,11 @@ async def main() -> None:
                      "caller_agent_id": 1, "top_k": 3},
                 )
                 print(kb_result_3.content[0].text, "\n")
+                
+             # --- MEMORY: Consolidation pass ---
+            consolidate(customer_id=5, episodic=episodic, semantic=semantic)
+            print(f"[SEMANTIC] budget for customer 5: {semantic.get_fact(5, 'budget')}")
+            print(f"[SEMANTIC] history: {semantic.get_history(5, 'budget')}")
 
             print("=== Demo run complete ===")
 
