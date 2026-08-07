@@ -58,7 +58,7 @@ class RecursiveSummarizationStrategy(ContextStrategy):
 
     def _summarize(self, prior_summary: str, turns_to_fold_in: list[Turn]) -> str:
         transcript_text = "\n".join(
-            f"[{t.role}] {t.content}" for t in turns_to_fold_in
+            f"[{t.role}] {str(t.content)[:300]}" for t in turns_to_fold_in
         )
         prompt = (
             "You are compacting an agent's conversation history. Update the "
@@ -75,8 +75,7 @@ class RecursiveSummarizationStrategy(ContextStrategy):
             return (prior_summary + " | " + transcript_text)[:800]
 
         response = _groq_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            max_tokens=300,
+            model="llama-3.1-8b-instant",            max_tokens=300,
             messages=[{"role": "user", "content": prompt}],
         )
         return response.choices[0].message.content
