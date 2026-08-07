@@ -1,0 +1,2198 @@
+{
+  "seed": 3,
+  "fact_index": 3,
+  "expected_keyword": "mold",
+  "query": "Is there any health-related constraint on which properties we can show this client?",
+  "turns": [
+    {
+      "role": "agent",
+      "content": "Hi! Happy to help you find a property today.",
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "user",
+      "content": "Thanks, we've been looking for a while now.",
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Let's go over what you're looking for.",
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "user",
+      "content": "My partner is severely allergic to mold, so any property with past water damage is a hard no.",
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 2,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 0)",
+            "price": 3985716,
+            "bedrooms": 3,
+            "bathrooms": 3,
+            "area_sqft": 2841,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 0)",
+            "price": 4124461,
+            "bedrooms": 2,
+            "bathrooms": 1,
+            "area_sqft": 2821,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 0)",
+            "price": 2587809,
+            "bedrooms": 3,
+            "bathrooms": 2,
+            "area_sqft": 2826,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 0)",
+            "price": 3769008,
+            "bedrooms": 5,
+            "bathrooms": 4,
+            "area_sqft": 1516,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 0)",
+            "price": 2472751,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 962,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 0)",
+            "price": 4316103,
+            "bedrooms": 2,
+            "bathrooms": 2,
+            "area_sqft": 1075,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 0)",
+            "price": 2763608,
+            "bedrooms": 2,
+            "bathrooms": 3,
+            "area_sqft": 2836,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 0)",
+            "price": 3994560,
+            "bedrooms": 5,
+            "bathrooms": 4,
+            "area_sqft": 2517,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1855.31
+      },
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 0 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 5,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 1)",
+            "price": 3364875,
+            "bedrooms": 3,
+            "bathrooms": 3,
+            "area_sqft": 1299,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 1)",
+            "price": 1650519,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 1788,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 1)",
+            "price": 2582051,
+            "bedrooms": 5,
+            "bathrooms": 3,
+            "area_sqft": 2625,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 1)",
+            "price": 3627531,
+            "bedrooms": 5,
+            "bathrooms": 3,
+            "area_sqft": 3087,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 1)",
+            "price": 3953978,
+            "bedrooms": 5,
+            "bathrooms": 2,
+            "area_sqft": 2279,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 1)",
+            "price": 4360440,
+            "bedrooms": 2,
+            "bathrooms": 3,
+            "area_sqft": 1568,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 1)",
+            "price": 4430207,
+            "bedrooms": 4,
+            "bathrooms": 1,
+            "area_sqft": 1764,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 1)",
+            "price": 4154893,
+            "bedrooms": 4,
+            "bathrooms": 3,
+            "area_sqft": 1409,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1257.11
+      },
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 1 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 4,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 2)",
+            "price": 1871271,
+            "bedrooms": 4,
+            "bathrooms": 1,
+            "area_sqft": 2581,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 2)",
+            "price": 5262694,
+            "bedrooms": 3,
+            "bathrooms": 1,
+            "area_sqft": 2103,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 2)",
+            "price": 3291562,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 1081,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 2)",
+            "price": 4037505,
+            "bedrooms": 2,
+            "bathrooms": 4,
+            "area_sqft": 2255,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 2)",
+            "price": 3810438,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 1047,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 2)",
+            "price": 2798850,
+            "bedrooms": 2,
+            "bathrooms": 1,
+            "area_sqft": 1342,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 2)",
+            "price": 4015587,
+            "bedrooms": 2,
+            "bathrooms": 2,
+            "area_sqft": 2570,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 2)",
+            "price": 2723111,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 1073,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 2081.9
+      },
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 2 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 3,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 3)",
+            "price": 2816300,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 2447,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 3)",
+            "price": 3080209,
+            "bedrooms": 5,
+            "bathrooms": 4,
+            "area_sqft": 3190,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 3)",
+            "price": 1930221,
+            "bedrooms": 4,
+            "bathrooms": 4,
+            "area_sqft": 1873,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 3)",
+            "price": 5427696,
+            "bedrooms": 4,
+            "bathrooms": 4,
+            "area_sqft": 1957,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 3)",
+            "price": 3685766,
+            "bedrooms": 4,
+            "bathrooms": 3,
+            "area_sqft": 946,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 3)",
+            "price": 4806774,
+            "bedrooms": 5,
+            "bathrooms": 3,
+            "area_sqft": 982,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 3)",
+            "price": 3079224,
+            "bedrooms": 3,
+            "bathrooms": 1,
+            "area_sqft": 2261,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 3)",
+            "price": 3455596,
+            "bedrooms": 4,
+            "bathrooms": 3,
+            "area_sqft": 2042,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1864.23
+      },
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 3 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 1,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 4)",
+            "price": 3972026,
+            "bedrooms": 2,
+            "bathrooms": 1,
+            "area_sqft": 2412,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 4)",
+            "price": 2553283,
+            "bedrooms": 5,
+            "bathrooms": 3,
+            "area_sqft": 2210,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 4)",
+            "price": 2244157,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 2180,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 4)",
+            "price": 4679731,
+            "bedrooms": 4,
+            "bathrooms": 3,
+            "area_sqft": 2130,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 4)",
+            "price": 4802183,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 1010,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 4)",
+            "price": 3887641,
+            "bedrooms": 3,
+            "bathrooms": 3,
+            "area_sqft": 2948,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 4)",
+            "price": 2433391,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 2242,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 4)",
+            "price": 2285988,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 1317,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1740.65
+      },
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 4 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 3,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 5)",
+            "price": 4330850,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 1593,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 5)",
+            "price": 1835327,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 2747,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 5)",
+            "price": 2634978,
+            "bedrooms": 3,
+            "bathrooms": 1,
+            "area_sqft": 1038,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 5)",
+            "price": 3721419,
+            "bedrooms": 3,
+            "bathrooms": 3,
+            "area_sqft": 1651,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 5)",
+            "price": 5122736,
+            "bedrooms": 4,
+            "bathrooms": 3,
+            "area_sqft": 1250,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 5)",
+            "price": 4881690,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 2625,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 5)",
+            "price": 2724497,
+            "bedrooms": 4,
+            "bathrooms": 4,
+            "area_sqft": 2318,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 5)",
+            "price": 4159941,
+            "bedrooms": 5,
+            "bathrooms": 3,
+            "area_sqft": 2619,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1711.5
+      },
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 5 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 1,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 6)",
+            "price": 5361328,
+            "bedrooms": 5,
+            "bathrooms": 2,
+            "area_sqft": 1717,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 6)",
+            "price": 1519552,
+            "bedrooms": 5,
+            "bathrooms": 4,
+            "area_sqft": 3189,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 6)",
+            "price": 5485264,
+            "bedrooms": 3,
+            "bathrooms": 1,
+            "area_sqft": 2770,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 6)",
+            "price": 5009368,
+            "bedrooms": 4,
+            "bathrooms": 3,
+            "area_sqft": 1831,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 6)",
+            "price": 5113523,
+            "bedrooms": 2,
+            "bathrooms": 3,
+            "area_sqft": 1391,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 6)",
+            "price": 4898191,
+            "bedrooms": 3,
+            "bathrooms": 1,
+            "area_sqft": 1043,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 6)",
+            "price": 5290012,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 1102,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 6)",
+            "price": 1555132,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 1603,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1652.87
+      },
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 6 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 2,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 7)",
+            "price": 4280387,
+            "bedrooms": 2,
+            "bathrooms": 4,
+            "area_sqft": 1118,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 7)",
+            "price": 5438629,
+            "bedrooms": 2,
+            "bathrooms": 3,
+            "area_sqft": 1413,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 7)",
+            "price": 2558956,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 2341,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 7)",
+            "price": 2426115,
+            "bedrooms": 3,
+            "bathrooms": 1,
+            "area_sqft": 3089,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 7)",
+            "price": 5223021,
+            "bedrooms": 2,
+            "bathrooms": 2,
+            "area_sqft": 1880,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 7)",
+            "price": 4820512,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 930,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 7)",
+            "price": 3544728,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 2011,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 7)",
+            "price": 2541272,
+            "bedrooms": 4,
+            "bathrooms": 4,
+            "area_sqft": 1108,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1625.61
+      },
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 7 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 1,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 8)",
+            "price": 5094612,
+            "bedrooms": 2,
+            "bathrooms": 2,
+            "area_sqft": 1089,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 8)",
+            "price": 2022720,
+            "bedrooms": 2,
+            "bathrooms": 1,
+            "area_sqft": 2877,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 8)",
+            "price": 1638458,
+            "bedrooms": 2,
+            "bathrooms": 4,
+            "area_sqft": 2193,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 8)",
+            "price": 2158680,
+            "bedrooms": 4,
+            "bathrooms": 1,
+            "area_sqft": 2338,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 8)",
+            "price": 3118150,
+            "bedrooms": 5,
+            "bathrooms": 3,
+            "area_sqft": 2377,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 8)",
+            "price": 2611198,
+            "bedrooms": 3,
+            "bathrooms": 3,
+            "area_sqft": 2655,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 8)",
+            "price": 2019066,
+            "bedrooms": 3,
+            "bathrooms": 1,
+            "area_sqft": 2457,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 8)",
+            "price": 4835699,
+            "bedrooms": 2,
+            "bathrooms": 2,
+            "area_sqft": 1075,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1535.95
+      },
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 8 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 5,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 9)",
+            "price": 4227435,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 2667,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 9)",
+            "price": 1722569,
+            "bedrooms": 4,
+            "bathrooms": 4,
+            "area_sqft": 2190,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 9)",
+            "price": 3263763,
+            "bedrooms": 5,
+            "bathrooms": 4,
+            "area_sqft": 973,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 9)",
+            "price": 2527953,
+            "bedrooms": 3,
+            "bathrooms": 3,
+            "area_sqft": 1193,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 9)",
+            "price": 4868602,
+            "bedrooms": 5,
+            "bathrooms": 2,
+            "area_sqft": 2644,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 9)",
+            "price": 2046794,
+            "bedrooms": 2,
+            "bathrooms": 3,
+            "area_sqft": 2432,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 9)",
+            "price": 5265873,
+            "bedrooms": 4,
+            "bathrooms": 1,
+            "area_sqft": 2801,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 9)",
+            "price": 4396399,
+            "bedrooms": 2,
+            "bathrooms": 4,
+            "area_sqft": 1344,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1860.36
+      },
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 9 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.828679",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 5,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 10)",
+            "price": 3731249,
+            "bedrooms": 2,
+            "bathrooms": 1,
+            "area_sqft": 2839,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 10)",
+            "price": 2101959,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 1081,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 10)",
+            "price": 3711263,
+            "bedrooms": 2,
+            "bathrooms": 1,
+            "area_sqft": 2439,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 10)",
+            "price": 2251424,
+            "bedrooms": 2,
+            "bathrooms": 3,
+            "area_sqft": 1396,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 10)",
+            "price": 1606818,
+            "bedrooms": 2,
+            "bathrooms": 4,
+            "area_sqft": 2065,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 10)",
+            "price": 3928822,
+            "bedrooms": 4,
+            "bathrooms": 1,
+            "area_sqft": 1048,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 10)",
+            "price": 4718786,
+            "bedrooms": 3,
+            "bathrooms": 1,
+            "area_sqft": 3171,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 10)",
+            "price": 4641386,
+            "bedrooms": 2,
+            "bathrooms": 1,
+            "area_sqft": 3153,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1491.82
+      },
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 10 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 5,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 11)",
+            "price": 2256745,
+            "bedrooms": 2,
+            "bathrooms": 2,
+            "area_sqft": 1636,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 11)",
+            "price": 4209406,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 2512,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 11)",
+            "price": 2560722,
+            "bedrooms": 4,
+            "bathrooms": 4,
+            "area_sqft": 2334,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 11)",
+            "price": 3834711,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 2437,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 11)",
+            "price": 3598450,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 1557,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 11)",
+            "price": 3241772,
+            "bedrooms": 5,
+            "bathrooms": 2,
+            "area_sqft": 2542,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 11)",
+            "price": 5263973,
+            "bedrooms": 3,
+            "bathrooms": 2,
+            "area_sqft": 1292,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 11)",
+            "price": 3588588,
+            "bedrooms": 5,
+            "bathrooms": 4,
+            "area_sqft": 1662,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1322.66
+      },
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 11 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 2,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 12)",
+            "price": 2114697,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 3103,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 12)",
+            "price": 5498956,
+            "bedrooms": 4,
+            "bathrooms": 4,
+            "area_sqft": 1994,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 12)",
+            "price": 5230452,
+            "bedrooms": 3,
+            "bathrooms": 3,
+            "area_sqft": 994,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 12)",
+            "price": 2624466,
+            "bedrooms": 5,
+            "bathrooms": 4,
+            "area_sqft": 1721,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 12)",
+            "price": 2222459,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 2219,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 12)",
+            "price": 3524152,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 2864,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 12)",
+            "price": 4442256,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 3181,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 12)",
+            "price": 1616476,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 2539,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1904.8
+      },
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 12 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 1,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 13)",
+            "price": 3460397,
+            "bedrooms": 3,
+            "bathrooms": 2,
+            "area_sqft": 1183,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 13)",
+            "price": 2411723,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 1676,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 13)",
+            "price": 4753944,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 1666,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 13)",
+            "price": 4108471,
+            "bedrooms": 2,
+            "bathrooms": 3,
+            "area_sqft": 1595,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 13)",
+            "price": 5128487,
+            "bedrooms": 2,
+            "bathrooms": 3,
+            "area_sqft": 1650,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 13)",
+            "price": 3275429,
+            "bedrooms": 2,
+            "bathrooms": 1,
+            "area_sqft": 1383,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 13)",
+            "price": 1888570,
+            "bedrooms": 4,
+            "bathrooms": 3,
+            "area_sqft": 1047,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 13)",
+            "price": 2995945,
+            "bedrooms": 5,
+            "bathrooms": 3,
+            "area_sqft": 928,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1226.45
+      },
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 13 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 3,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 14)",
+            "price": 3329644,
+            "bedrooms": 5,
+            "bathrooms": 4,
+            "area_sqft": 1219,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 14)",
+            "price": 2381207,
+            "bedrooms": 5,
+            "bathrooms": 4,
+            "area_sqft": 1413,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 14)",
+            "price": 3783196,
+            "bedrooms": 4,
+            "bathrooms": 1,
+            "area_sqft": 2025,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 14)",
+            "price": 1819790,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 2695,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 14)",
+            "price": 5221140,
+            "bedrooms": 4,
+            "bathrooms": 1,
+            "area_sqft": 3061,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 14)",
+            "price": 5448046,
+            "bedrooms": 4,
+            "bathrooms": 3,
+            "area_sqft": 2744,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 14)",
+            "price": 2739559,
+            "bedrooms": 4,
+            "bathrooms": 1,
+            "area_sqft": 2286,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 14)",
+            "price": 4322032,
+            "bedrooms": 2,
+            "bathrooms": 4,
+            "area_sqft": 2983,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1516.94
+      },
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 14 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 3,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 15)",
+            "price": 4346019,
+            "bedrooms": 3,
+            "bathrooms": 2,
+            "area_sqft": 1633,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 15)",
+            "price": 3055161,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 1343,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 15)",
+            "price": 5408437,
+            "bedrooms": 3,
+            "bathrooms": 3,
+            "area_sqft": 2620,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 15)",
+            "price": 3827519,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 2774,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 15)",
+            "price": 3523216,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 1180,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 15)",
+            "price": 1950556,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 2371,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 15)",
+            "price": 1918820,
+            "bedrooms": 4,
+            "bathrooms": 3,
+            "area_sqft": 2470,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 15)",
+            "price": 1724281,
+            "bedrooms": 3,
+            "bathrooms": 1,
+            "area_sqft": 2860,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1654.24
+      },
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 15 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 2,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 16)",
+            "price": 4416912,
+            "bedrooms": 4,
+            "bathrooms": 3,
+            "area_sqft": 2552,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 16)",
+            "price": 3380021,
+            "bedrooms": 2,
+            "bathrooms": 3,
+            "area_sqft": 2939,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 16)",
+            "price": 5052087,
+            "bedrooms": 2,
+            "bathrooms": 2,
+            "area_sqft": 2007,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 16)",
+            "price": 3975137,
+            "bedrooms": 2,
+            "bathrooms": 1,
+            "area_sqft": 1359,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 16)",
+            "price": 2275300,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 2502,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 16)",
+            "price": 4921495,
+            "bedrooms": 3,
+            "bathrooms": 2,
+            "area_sqft": 2531,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 16)",
+            "price": 4847875,
+            "bedrooms": 3,
+            "bathrooms": 2,
+            "area_sqft": 1632,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 16)",
+            "price": 2347571,
+            "bedrooms": 4,
+            "bathrooms": 3,
+            "area_sqft": 2100,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1227.08
+      },
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 16 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 4,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 17)",
+            "price": 5237964,
+            "bedrooms": 5,
+            "bathrooms": 4,
+            "area_sqft": 2194,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 17)",
+            "price": 3817799,
+            "bedrooms": 4,
+            "bathrooms": 4,
+            "area_sqft": 3067,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 17)",
+            "price": 4379935,
+            "bedrooms": 4,
+            "bathrooms": 4,
+            "area_sqft": 1023,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 17)",
+            "price": 4022303,
+            "bedrooms": 3,
+            "bathrooms": 1,
+            "area_sqft": 1340,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 17)",
+            "price": 4731528,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 1609,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 17)",
+            "price": 3696304,
+            "bedrooms": 5,
+            "bathrooms": 2,
+            "area_sqft": 1692,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 17)",
+            "price": 4780582,
+            "bedrooms": 3,
+            "bathrooms": 1,
+            "area_sqft": 2949,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 17)",
+            "price": 5384126,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 2060,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 2063.12
+      },
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 17 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 2,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 18)",
+            "price": 2068696,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 1107,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 18)",
+            "price": 1607026,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 2972,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 18)",
+            "price": 1826469,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 2291,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 18)",
+            "price": 2855253,
+            "bedrooms": 4,
+            "bathrooms": 3,
+            "area_sqft": 1450,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 18)",
+            "price": 1837703,
+            "bedrooms": 2,
+            "bathrooms": 1,
+            "area_sqft": 2307,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 18)",
+            "price": 4883462,
+            "bedrooms": 3,
+            "bathrooms": 1,
+            "area_sqft": 1719,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 18)",
+            "price": 3333014,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 2193,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 18)",
+            "price": 1957691,
+            "bedrooms": 2,
+            "bathrooms": 4,
+            "area_sqft": 1219,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1960.73
+      },
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 18 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 2,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 19)",
+            "price": 3142045,
+            "bedrooms": 5,
+            "bathrooms": 4,
+            "area_sqft": 1178,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 19)",
+            "price": 3754168,
+            "bedrooms": 5,
+            "bathrooms": 2,
+            "area_sqft": 2903,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 19)",
+            "price": 2777794,
+            "bedrooms": 2,
+            "bathrooms": 4,
+            "area_sqft": 2774,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 19)",
+            "price": 4675502,
+            "bedrooms": 5,
+            "bathrooms": 4,
+            "area_sqft": 1639,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 19)",
+            "price": 3409985,
+            "bedrooms": 2,
+            "bathrooms": 3,
+            "area_sqft": 2402,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 19)",
+            "price": 5060074,
+            "bedrooms": 4,
+            "bathrooms": 4,
+            "area_sqft": 3068,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 19)",
+            "price": 3016362,
+            "bedrooms": 5,
+            "bathrooms": 2,
+            "area_sqft": 911,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 19)",
+            "price": 4873032,
+            "bedrooms": 3,
+            "bathrooms": 3,
+            "area_sqft": 2414,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1329.13
+      },
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 19 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 4,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 20)",
+            "price": 3739009,
+            "bedrooms": 3,
+            "bathrooms": 2,
+            "area_sqft": 1757,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 20)",
+            "price": 1593227,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 2962,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 20)",
+            "price": 2205799,
+            "bedrooms": 2,
+            "bathrooms": 2,
+            "area_sqft": 1350,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 20)",
+            "price": 4052994,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 2908,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 20)",
+            "price": 2275111,
+            "bedrooms": 2,
+            "bathrooms": 1,
+            "area_sqft": 2551,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 20)",
+            "price": 3379144,
+            "bedrooms": 4,
+            "bathrooms": 4,
+            "area_sqft": 1034,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 20)",
+            "price": 4450454,
+            "bedrooms": 2,
+            "bathrooms": 2,
+            "area_sqft": 2551,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 20)",
+            "price": 1664148,
+            "bedrooms": 5,
+            "bathrooms": 4,
+            "area_sqft": 1009,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 2018.06
+      },
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 20 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 2,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 21)",
+            "price": 2513187,
+            "bedrooms": 2,
+            "bathrooms": 4,
+            "area_sqft": 2843,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 21)",
+            "price": 2299621,
+            "bedrooms": 3,
+            "bathrooms": 3,
+            "area_sqft": 1375,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 21)",
+            "price": 2952735,
+            "bedrooms": 2,
+            "bathrooms": 1,
+            "area_sqft": 2091,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 21)",
+            "price": 2653806,
+            "bedrooms": 5,
+            "bathrooms": 3,
+            "area_sqft": 2901,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 21)",
+            "price": 2548461,
+            "bedrooms": 4,
+            "bathrooms": 1,
+            "area_sqft": 2280,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 21)",
+            "price": 4138653,
+            "bedrooms": 4,
+            "bathrooms": 3,
+            "area_sqft": 1283,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 21)",
+            "price": 1737903,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 914,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 21)",
+            "price": 1939512,
+            "bedrooms": 2,
+            "bathrooms": 1,
+            "area_sqft": 978,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1353.3
+      },
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 21 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 1,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 22)",
+            "price": 3521007,
+            "bedrooms": 2,
+            "bathrooms": 2,
+            "area_sqft": 2987,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 22)",
+            "price": 5276135,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 2853,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 22)",
+            "price": 2925992,
+            "bedrooms": 5,
+            "bathrooms": 3,
+            "area_sqft": 1040,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 22)",
+            "price": 3103536,
+            "bedrooms": 4,
+            "bathrooms": 4,
+            "area_sqft": 1259,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 22)",
+            "price": 5473318,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 2591,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 22)",
+            "price": 1980976,
+            "bedrooms": 5,
+            "bathrooms": 3,
+            "area_sqft": 3097,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 22)",
+            "price": 4352327,
+            "bedrooms": 5,
+            "bathrooms": 2,
+            "area_sqft": 2480,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 22)",
+            "price": 5005000,
+            "bedrooms": 4,
+            "bathrooms": 2,
+            "area_sqft": 2386,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1921.52
+      },
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 22 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "tool",
+      "content": {
+        "subject_property_id": 4,
+        "comparable_count": 8,
+        "comparables": [
+          {
+            "property_id": 100,
+            "title": "Comparable listing 0 (batch 23)",
+            "price": 2462193,
+            "bedrooms": 5,
+            "bathrooms": 4,
+            "area_sqft": 2313,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 101,
+            "title": "Comparable listing 1 (batch 23)",
+            "price": 2630186,
+            "bedrooms": 3,
+            "bathrooms": 4,
+            "area_sqft": 2895,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 102,
+            "title": "Comparable listing 2 (batch 23)",
+            "price": 1679237,
+            "bedrooms": 3,
+            "bathrooms": 2,
+            "area_sqft": 994,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 103,
+            "title": "Comparable listing 3 (batch 23)",
+            "price": 4951057,
+            "bedrooms": 5,
+            "bathrooms": 1,
+            "area_sqft": 1297,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 104,
+            "title": "Comparable listing 4 (batch 23)",
+            "price": 2842535,
+            "bedrooms": 3,
+            "bathrooms": 1,
+            "area_sqft": 1097,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 105,
+            "title": "Comparable listing 5 (batch 23)",
+            "price": 3387035,
+            "bedrooms": 5,
+            "bathrooms": 3,
+            "area_sqft": 2415,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 106,
+            "title": "Comparable listing 6 (batch 23)",
+            "price": 1506989,
+            "bedrooms": 2,
+            "bathrooms": 2,
+            "area_sqft": 2535,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          },
+          {
+            "property_id": 107,
+            "title": "Comparable listing 7 (batch 23)",
+            "price": 4800409,
+            "bedrooms": 2,
+            "bathrooms": 3,
+            "area_sqft": 2175,
+            "notes": "Recently renovated kitchen, close to transit, quiet street, good school district access.Recently renovated kitchen, close to transit, quiet street, good school district access."
+          }
+        ],
+        "average_price_per_sqft": 1299.12
+      },
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "agent",
+      "content": "Checked comparable set 23 \u2014 a few options in range, let's keep looking.",
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    },
+    {
+      "role": "user",
+      "content": "Is there any health-related constraint on which properties we can show this client?",
+      "timestamp": "2026-08-07T01:40:01.829574",
+      "customer_id": 1003
+    }
+  ]
+}
