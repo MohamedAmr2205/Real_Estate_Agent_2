@@ -32,6 +32,7 @@ if str(ROOT_DIR) not in sys.path:
 from memory.short_term import ShortTermMemory
 from memory.router import route_overflow
 from memory.semantic_store import SemanticStore
+from memory.recall import recall_episodic, recall_semantic
 from memory.consolidation import consolidate
 from memory.episodic_store import EpisodicStore
 from mcp import ClientSession, StdioServerParameters
@@ -328,6 +329,16 @@ async def main() -> None:
             print(f"[SEMANTIC] full version history:")
             for f in semantic.get_history(5, 'budget'):
                 print(f"  → value='{f.value}' superseded={f.superseded} ts={f.timestamp[:19]}")
+
+            # ----------------------------------------------------------------
+            # SELF-RAG MEMORY RECALL VERIFICATION
+            # ----------------------------------------------------------------
+            print("\n=== MEMORY RECALL — Self-RAG verification ===")
+            ep_result = recall_episodic(customer_id=5, query="what is the client budget?", episodic=episodic)
+            print(f"[RECALL] episodic verified={ep_result['self_rag']['verified']} episodes={len(ep_result['episodes'])}")
+
+            sem_result = recall_semantic(customer_id=5, query="what is the client budget?", semantic=semantic)
+            print(f"[RECALL] semantic verified={sem_result['self_rag']['verified']} facts={sem_result['facts']}")
 
             print("\n=== Demo run complete ===")
 

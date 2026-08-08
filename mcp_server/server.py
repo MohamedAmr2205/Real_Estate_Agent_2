@@ -39,8 +39,10 @@ from tools import assign_listing_agent as assign_logic
 from tools import generate_cma as cma_logic
 from tools import explain_offer_risk as risk_logic
 from prompts import listing_prompts
-from rag import knowledge_base as kb_logic
-
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from rag.knowledge_base import index_property_notes, search_knowledge_base as _kb_search
 
 # ---------------------------------------------------------------------------
 # Pydantic model for the elicitation schema (SECTION 5 uses this).
@@ -77,8 +79,7 @@ mcp = FastMCP(
 )
 
 # Load the in-memory property-notes index once at startup (Add-On Lab).
-kb_logic.index_property_notes()
-
+index_property_notes()
 
 # ---------------------------------------------------------------------------
 # SECTION 2 — RESOURCES (fair housing policy is DATA, not a tool call)
@@ -298,7 +299,7 @@ def search_knowledge_base(query: str, property_id: int, caller_agent_id: int,
     requiring Broker access are filtered out for non-Broker callers.
     """
     try:
-        return kb_logic.search_knowledge_base(query, property_id, caller_agent_id, top_k)
+        return _kb_search(query, property_id, caller_agent_id, top_k)
     except ValueError as e:
         return {"error": str(e)}
 
