@@ -1,3 +1,4 @@
+# ...existing code...
 """
 retrieval_eval/eval.py
 =========================================
@@ -46,6 +47,8 @@ from rag.verification import (
     verify_groundedness,
     VerificationConfig,
 )
+from rag.graph_retrieve import GraphRetriever
+# ...existing code...
 
 TEST_SET_PATH = Path(__file__).resolve().parent / "test_set.json"
 
@@ -255,7 +258,12 @@ def build_retrievers():
     agentic = AgenticRetriever(store, embedding,
                                config=RetrieverConfig(top_k=5, similarity_threshold=0.0,
                                                       max_iterations=3, min_context_tokens=100))
-    return naive, hybrid, agentic, embedding
+
+    graph = GraphRetriever(store, embedding,
+                           RetrieverConfig(top_k=5, similarity_threshold=0.0),
+                           max_hops=2, seed_k=2)
+
+    return naive, hybrid, agentic, graph, embedding
 
 
 # ----------------------------------------------------------------
@@ -434,7 +442,7 @@ def main() -> None:
     queries = load_test_set(TEST_SET_PATH)
     print(f"[EVAL] Loaded {len(queries)} test queries\n")
 
-    naive, hybrid, agentic, embedding = build_retrievers()
+    naive, hybrid, agentic, graph, embedding = build_retrievers()
 
     verify_config = VerificationConfig(
         relevance_threshold=0.35,
@@ -445,6 +453,7 @@ def main() -> None:
         ("naive",   naive),
         ("hybrid",  hybrid),
         ("agentic", agentic),
+        ("graph",   graph),
     ]
 
     all_results: list[StrategyResult] = []
