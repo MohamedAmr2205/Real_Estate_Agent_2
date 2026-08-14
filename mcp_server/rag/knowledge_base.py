@@ -91,15 +91,24 @@ PROPERTY_NOTES = [
 ]
 
 
+_indexed = False
+
+
 def index_property_notes() -> None:
     """Load the in-memory notes into the keyword store. Called once at
-    server startup (see server.py)."""
+    server startup (see server.py) — and guarded here so calling it more
+    than once (e.g. also from planning_lab's grounded Environment, which
+    can run standalone) never duplicates entries."""
+    global _indexed
+    if _indexed:
+        return
     for note in PROPERTY_NOTES:
         knowledge_store.upsert(
             payload=note["text"],
             metadata={"property_id": note["property_id"],
                       "role_required": note["role_required"]},
         )
+    _indexed = True
 
 
 # ---------------------------------------------------------------------
