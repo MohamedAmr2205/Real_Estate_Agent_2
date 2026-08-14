@@ -168,7 +168,7 @@ async def dynamic_decomposition(
         # --- Ask the adaptive planner what to do next ---
         decision: DynamicDecision = llm.with_structured_output(
             DynamicDecision,
-            method="json_schema",
+            method="function_calling",
         ).invoke(
             [
                 ("system", _ADAPTIVE_PLANNER_SYSTEM),

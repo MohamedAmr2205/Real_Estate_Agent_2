@@ -34,15 +34,10 @@ from pydantic import BaseModel, ConfigDict
 
 # ---------------------------------------------------------------------------
 # Re-use toolkit's Plan / Task domain models unchanged
-# Prefer package-relative import, then repository-root `models.py`.
-# This handles running the module directly (script mode) where package
-# relative imports fail and the repo root may not be on sys.path.
 # ---------------------------------------------------------------------------
 try:
-    # Normal package import when used as part of a package
     from ..models import Plan
 except Exception:
-    # Fall back to locating models.py in the repository root.
     import sys
     import importlib.util
 
@@ -53,13 +48,12 @@ except Exception:
     try:
         from models import Plan
     except Exception as e:
-        # Last-resort: load models.py by path if present
         models_path = repo_root / "models.py"
         if models_path.exists():
             spec = importlib.util.spec_from_file_location("models", str(models_path))
             mod = importlib.util.module_from_spec(spec)
             sys.modules["models"] = mod
-            spec.loader.exec_module(mod)  # type: ignore[attr-defined]
+            spec.loader.exec_module(mod)
             Plan = getattr(mod, "Plan")
         else:
             raise ModuleNotFoundError(
@@ -113,8 +107,8 @@ class PlannedTask(BaseModel):
     id: str
     instruction: str
     depends_on: list[str]
-    method: str = "plan_and_solve"   # plan_and_solve | tree_of_thoughts | lats
-    mcp_tool: str | None = None      # None = pure-reasoning step
+    method: str = "plan_and_solve"
+    mcp_tool: str | None = None
 
 
 class GeneratedPlan(BaseModel):
@@ -132,12 +126,7 @@ class CyclicPlanError(ValueError):
 
 
 def _assert_acyclic(tasks: list[PlannedTask]) -> None:
-    """
-    Kahn's algorithm — raises CyclicPlanError before any tool is called.
-    This is a hard requirement: a plan that can deadlock is a bug.
-    """
     ids = {t.id for t in tasks}
-    # Validate that every dependency actually exists in the plan
     for task in tasks:
         for dep in task.depends_on:
             if dep not in ids:
@@ -170,6 +159,27 @@ def _assert_acyclic(tasks: list[PlannedTask]) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Helper — strip extra fields and return (clean_payload, routing_hints)
+# ---------------------------------------------------------------------------
+def _strip_and_hint(generated: GeneratedPlan, goal: str) -> tuple[dict, dict]:
+    """
+    Toolkit's Plan model has extra='forbid', so we strip 'method' and
+    'mcp_tool' before calling Plan.model_validate(). We save them first
+    as routing_hints so the executor can still use them.
+    """
+    routing_hints = {
+        t.id: {"method": t.method, "mcp_tool": t.mcp_tool}
+        for t in generated.tasks
+    }
+    payload = generated.model_dump()
+    payload["goal"] = goal
+    for task in payload["tasks"]:
+        task.pop("method", None)
+        task.pop("mcp_tool", None)
+    return payload, routing_hints
+
+
+# ---------------------------------------------------------------------------
 # Public API — decompose_goal  (toolkit interface, domain-adapted)
 # ---------------------------------------------------------------------------
 def decompose_goal(goal: str, llm: BaseChatModel | None = None) -> Plan:
@@ -178,11 +188,10 @@ def decompose_goal(goal: str, llm: BaseChatModel | None = None) -> Plan:
     Acyclicity is enforced before returning — CyclicPlanError is raised
     if the model produced a cycle.
     """
-    # If a LangChain-style `llm` is provided, use its structured-output helper.
     if llm is not None:
         generated: GeneratedPlan = llm.with_structured_output(
             GeneratedPlan,
-            method="json_schema",
+            method="function_calling",
         ).invoke(
             [
                 ("system", PLANNER_SYSTEM),
@@ -196,13 +205,14 @@ def decompose_goal(goal: str, llm: BaseChatModel | None = None) -> Plan:
             ],
             temperature=0.1,
         )
-        payload = generated.model_dump()
-        payload["goal"] = goal          # caller's goal is authoritative
-        _assert_acyclic(generated.tasks)
-        return Plan.model_validate(payload)
 
-    # Fallback: call Google Gemini directly if available. Ask it to emit
-    # JSON that matches GeneratedPlan and parse it.
+        _assert_acyclic(generated.tasks)
+        payload, routing_hints = _strip_and_hint(generated, goal)
+        plan = Plan.model_validate(payload)
+        plan._routing_hints = routing_hints
+        return plan
+
+    # Fallback: Google Gemini
     try:
         from google import genai as google_genai
     except Exception as e:
@@ -216,10 +226,9 @@ def decompose_goal(goal: str, llm: BaseChatModel | None = None) -> Plan:
     human_msg = (
         f"Decompose this offer-strategy request into 4-6 tasks:\n\n"
         f"{goal!r}\n\n"
-        "Return a JSON object matching this schema: {\"goal\":string, \"tasks\": [{\"id\":string, \"instruction\":string, \"depends_on\": [string], \"method\":string, \"mcp_tool\": string|null}]}"
+        'Return a JSON object matching this schema: {"goal":string, "tasks": [{"id":string, "instruction":string, "depends_on": [string], "method":string, "mcp_tool": string|null}]}'
     )
     prompt = PLANNER_SYSTEM + "\n\n" + human_msg
-
     resp = client.models.generate_content(model="gemini-1.5-flash", contents=prompt)
     raw = getattr(resp, "text", None) or str(resp)
 
@@ -229,26 +238,22 @@ def decompose_goal(goal: str, llm: BaseChatModel | None = None) -> Plan:
         raise RuntimeError(f"Failed to parse Gemini JSON output: {e}\nRaw output:\n{raw}") from e
 
     generated = GeneratedPlan.model_validate(parsed)
-    payload = generated.model_dump()
-    payload["goal"] = goal
     _assert_acyclic(generated.tasks)
-    return Plan.model_validate(payload)
+    payload, routing_hints = _strip_and_hint(generated, goal)
+    plan = Plan.model_validate(payload)
+    plan._routing_hints = routing_hints
+    return plan
 
 
 # ---------------------------------------------------------------------------
-# MCP tool dispatcher  (maps task → real MCP call)
+# MCP tool dispatcher
 # ---------------------------------------------------------------------------
 async def _dispatch_mcp_tool(
     tool_name: str,
     instruction: str,
     context: dict[str, Any],
-    session,                        # live mcp.ClientSession
+    session,
 ) -> str:
-    """
-    Route a PlannedTask's mcp_tool to the real MCP server call.
-    `instruction` and `context` are used to derive the right arguments.
-    Returns the tool result as a string for the outputs dict.
-    """
     if tool_name == "generate_cma":
         result = await session.call_tool(
             "generate_cma",
@@ -285,59 +290,56 @@ async def _dispatch_mcp_tool(
             },
         )
     else:
-        # Pure reasoning task — no MCP call needed
         return f"[pure-reasoning] {instruction}"
 
     return result.content[0].text if result.content else "[empty tool result]"
 
 
 # ---------------------------------------------------------------------------
-# Public API — execute_plan  (toolkit interface, MCP-wired)
+# Public API — execute_plan
 # ---------------------------------------------------------------------------
 async def execute_plan(
     plan: Plan,
     llm: BaseChatModel,
-    session,                        # live mcp.ClientSession
-    context: dict[str, Any],        # property_id, offer_id, city, …
+    session,
+    context: dict[str, Any],
     max_workers: int = 4,
 ) -> dict[str, str]:
-    """
-    Execute the static DAG in topological order.
-    - MCP tool tasks are dispatched to the real server.
-    - Pure-reasoning tasks go to the LLM.
-    - Independent tasks in the same batch run in parallel (ThreadPoolExecutor).
-
-    Returns outputs dict keyed by task id.
-    """
     outputs: dict[str, str] = {}
     trace_nodes = []
+    routing_hints = getattr(plan, "_routing_hints", {})
 
     for batch in plan.execution_batches():
         tasks_in_batch = [plan.task(tid) for tid in batch]
 
-        # Separate MCP tasks from reasoning tasks
-        mcp_tasks = [t for t in tasks_in_batch if getattr(t, "mcp_tool", None)]
-        reasoning_tasks = [t for t in tasks_in_batch if not getattr(t, "mcp_tool", None)]
+        mcp_tasks = [
+            t for t in tasks_in_batch
+            if routing_hints.get(t.id, {}).get("mcp_tool")
+        ]
+        reasoning_tasks = [
+            t for t in tasks_in_batch
+            if not routing_hints.get(t.id, {}).get("mcp_tool")
+        ]
 
-        # --- MCP tasks (async, sequential within batch for safety) ---
         for task in mcp_tasks:
+            tool_name = routing_hints[task.id]["mcp_tool"]
             start = time.time()
             result = await _dispatch_mcp_tool(
-                task.mcp_tool, task.instruction, context, session
+                tool_name, task.instruction, context, session
             )
             outputs[task.id] = result
             trace_nodes.append({
                 "id": task.id,
                 "type": "mcp",
-                "tool": task.mcp_tool,
-                "method": task.method,
+                "tool": tool_name,
+                "method": routing_hints[task.id].get("method", "plan_and_solve"),
                 "latency_s": round(time.time() - start, 3),
                 "output_preview": result[:200],
             })
 
-        # --- Reasoning tasks (parallel via ThreadPoolExecutor) ---
         if reasoning_tasks:
             def _run_reasoning(task):
+                hint = routing_hints.get(task.id, {})
                 dep_context = "\n\n".join(
                     f"OUTPUT FROM {dep}:\n{outputs[dep]}"
                     for dep in task.depends_on
@@ -362,23 +364,21 @@ async def execute_plan(
                 content = response.content
                 if not isinstance(content, str) or not content.strip():
                     raise RuntimeError(f"LLM returned empty response for task {task.id}")
-                return task.id, content.strip(), round(time.time() - start, 3)
+                return task.id, content.strip(), round(time.time() - start, 3), hint.get("method", "plan_and_solve")
 
             with ThreadPoolExecutor(max_workers=min(max_workers, len(reasoning_tasks))) as pool:
                 futures = {pool.submit(_run_reasoning, t): t for t in reasoning_tasks}
                 for future in as_completed(futures):
-                    tid, content, latency = future.result()
+                    tid, content, latency, method = future.result()
                     outputs[tid] = content
-                    task = futures[future]
                     trace_nodes.append({
                         "id": tid,
                         "type": "reasoning",
-                        "method": getattr(task, "method", "plan_and_solve"),
+                        "method": method,
                         "latency_s": latency,
                         "output_preview": content[:200],
                     })
 
-    # --- Emit toolkit-format artifact trace ---
     _save_trace(
         method="decomposition_first",
         goal=plan.goal,
@@ -390,7 +390,7 @@ async def execute_plan(
 
 
 # ---------------------------------------------------------------------------
-# Public API — final_output  (toolkit interface, unchanged)
+# Public API — final_output
 # ---------------------------------------------------------------------------
 def final_output(plan: Plan, outputs: dict[str, str]) -> str:
     terminals = plan.terminal_tasks()
@@ -402,7 +402,7 @@ def final_output(plan: Plan, outputs: dict[str, str]) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Artifact trace writer  (toolkit's own artifacts/ format)
+# Artifact trace writer
 # ---------------------------------------------------------------------------
 def _save_trace(
     method: str,
@@ -415,7 +415,7 @@ def _save_trace(
         "goal": goal,
         "timestamp": datetime.utcnow().isoformat(),
         "nodes": nodes,
-        "outputs": {k: v[:500] for k, v in outputs.items()},  # cap for readability
+        "outputs": {k: v[:500] for k, v in outputs.items()},
     }
     path = ARTIFACTS_DIR / f"{method}_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.json"
     path.write_text(json.dumps(trace, indent=2), encoding="utf-8")
