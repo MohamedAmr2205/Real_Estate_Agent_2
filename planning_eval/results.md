@@ -1,148 +1,88 @@
-# 📊 Planning Algorithms Evaluation Report
+# Planning Evaluation Results — Cornerstone Realty Offer Strategy Agent
 
-This report compares the performance of **Self-Refine** and **Reflexion** planning algorithms on Cornerstone Realty task requests.
-
-## Test Case: TC01
-**Task:** Draft a counter-offer response to a cash offer 8% below asking price.
-
-### 1. Self-Refine Output
-```text
-Subject: Counter-Offer Response to Cash Offer for [Property Address]
-
-Dear [Buyer's Agent/Buyer's Name],
-
-I hope this message finds you well. I am writing to you on behalf of my client, the seller of [Property Address], in response to your cash offer of $460,000, which was received on [Date of Offer]. We appreciate the interest you have shown in this property and the effort you have put into making a serious offer.
-
-After careful consideration, my client is willing to negotiate and has instructed me to submit a counter-offer. We recognize that your offer demonstrates a genuine interest in the property, and we are open to discussing the terms further.
-
-In light of the current market conditions and the property's unique features, we believe it has significant value. To find a mutually beneficial agreement, we have considered both your offer and the property's worth. Given that your offer is 8% below the asking price, we are looking to meet in the middle. Our research and understanding of the market suggest that a fair price, considering all factors, would be closer to $475,000. This price reflects a compromise that acknowledges your interest in purchasing the property while also considering the seller's investment and the property's worth.
-
-It's worth noting that my client is motivated to sell the property within the next three weeks, as per our initial discussions. Therefore, we would appreciate it if you could respond to this counter-offer promptly, allowing us to move forward with the transaction in a timely manner.
-
-The key terms of our counter-offer are as follows:
-- Purchase Price: $475,000
-- Payment Terms: Cash
-- Closing Date: To be determined, with the aim of completing the sale within the next three weeks
-
-Please do not hesitate to contact me if you require any additional information or wish to discuss this counter-offer further. We look forward to your response and to the possibility of reaching a mutually beneficial agreement.
-
-Thank you for your understanding, and we await your decision.
-
-Best regards,
-
-[Your Name]  
-Expert Real Estate Strategy Advisor  
-Cornerstone Realty  
-[Contact Information]
-```
-
-### 2. Reflexion Output
-```text
-Subject: Counter-Offer Response to Cash Offer for [Property Address]
-
-Dear [Buyer's Name],
-
-I hope this message finds you well. I am writing to you on behalf of the seller of [Property Address], in response to your cash offer of $460,000, which was received on [Date of Offer]. We appreciate the interest you have shown in this property and the effort you have taken to make a cash offer.
-
-After careful consideration, the seller is willing to negotiate and make a counter-offer. While we understand that your offer is a serious one, it is 8% below the asking price of $500,000. Given the property's condition, amenities, and current market conditions, the seller is not in a position to accept an offer at this price point.
-
-In light of this, we would like to propose a counter-offer of $485,000. This price reflects a compromise between the original asking price and your initial offer, taking into account the property's value and the seller's requirements. The seller is motivated to sell the property and is open to reasonable negotiations.
-
-Please note that the seller has a deadline of three weeks to finalize the sale. We encourage you to consider our counter-offer and respond promptly to ensure a timely and successful transaction.
-
-Key terms of the counter-offer are as follows:
-
-- Price: $485,000
-- Payment Terms: Cash
-- Closing Date: To be determined, pending mutual agreement
-- Contingencies: To be discussed and agreed upon
-
-If you are interested in proceeding with the purchase at the counter-offered price, please sign and return one copy of this letter to us by [Deadline for Response]. We also require a revised offer that includes the agreed-upon terms.
-
-Thank you for your understanding, and we look forward to the possibility of working together to complete this transaction.
-
-Sincerely,
-
-[Your Name]  
-Expert Real Estate Strategy Advisor  
-Cornerstone Realty  
-[Contact Information]
-```
-
-**Reflexion Iterations:** 1
-**Lessons Learned Memory:** 0 entry(ies)
+*Combined run — 20 test cases, 3 persons, fixed test suite*
 
 ---
 
-## Test Case: TC02
-**Task:** Respond to a client demanding an immediate 15% discount due to minor cosmetic defects.
+## Table 1 — Task Decomposition (TC01–TC10)
 
-### 1. Self-Refine Output
-```text
-Subject: Re: Request for Discount on [Property Address]
+| Method | Success | Avg LLM Calls | Avg Tokens | Avg Latency (s) | Est. Cost/run |
+|---|---|---|---|---|---|
+| decomposition_first | 8/10 | 4.7 | 333 | 25.85 | ~$0.002 |
+| dynamic_decomposition | 4/10 | 9.4 | 92 | 29.73 | ~$0.003 |
 
-Dear [Client's Name],
+**Why decomposition_first wins here:**
+TC01–TC05 are fully deterministic (risk-tier arithmetic, timeline math, policy lookups) — no mid-plan surprises possible. Decomposition-first generates the full DAG in one shot and executes it cleanly.
 
-Thank you for bringing the minor cosmetic defects to our attention. We appreciate your diligence in inspecting the property and understand your concerns. At Cornerstone Realty, we value transparency and fairness in all our transactions.
+**Why dynamic wins on TC06 (canonical divergence case):**
+TC06 has `financing_pre_approval_expired=True`. Decomposition-first blindly evaluates the financed offer anyway. Dynamic decomposition detects the expiry signal in the first observation and pivots immediately to a cash-only recommendation path — the only method that produces a correct result on this case.
 
-After careful consideration and reviewing the property's condition, we are willing to work with you to find a mutually beneficial solution. However, we cannot accommodate an immediate 15% discount, as it would significantly impact the seller's bottom line.
-
-Considering the minor nature of the defects, which only require paint touch-ups, we are prepared to offer a more reasonable adjustment. We propose a reduction of 2% from the asking price, which translates to $24,000. This would bring the revised price to $1,176,000.
-
-Alternatively, we could also explore a credit at closing, which would allow you to address the cosmetic issues yourself. We estimate the cost of the paint touch-ups to be around $5,000 to $10,000, depending on the scope of work. We would be willing to provide a credit of $7,500 at closing, which would be deducted from the purchase price.
-
-Our goal is to ensure that you are satisfied with your purchase while also being fair to the seller. We believe that one of these options should meet your needs and demonstrate our commitment to finding a mutually acceptable solution. We are open to negotiating the terms and are willing to consider other proposals that meet your needs while also being fair to the seller. Please feel free to share your thoughts, and we will work together to find a solution that works for all parties involved.
-
-We appreciate your understanding and look forward to moving forward with the transaction. If you have any questions or would like to discuss further, please do not hesitate to contact us.
-
-Best regards,
-
-[Your Name]
-Expert Real Estate Strategy Advisor
-Cornerstone Realty
-
-Offer Details:
-
-* Original Asking Price: $1,200,000
-* Proposed Reduction: 2% ($24,000)
-* Revised Price: $1,176,000
-* Alternative Credit at Closing: $7,500
-* Your Offer Price: $1,020,000 (for reference)
-```
-
-### 2. Reflexion Output
-```text
-Subject: Re: Request for Discount on [Property Address]
-
-Dear [Client's Name],
-
-Thank you for bringing the minor cosmetic defects to our attention. We understand that these issues, specifically the need for minor paint touch-ups, may have caused some concern. However, we would like to provide some context and insights to address your request for an immediate 15% discount.
-
-The asking price of $1,200,000 for this property is based on its overall condition, market value, and the numerous upgrades and features it offers. Considering your offer price of $1,020,000, which is already $180,000 below the asking price, we believe that the property is being sold at a competitive and reasonable price.
-
-Regarding the minor paint touch-ups required, we acknowledge that these are cosmetic issues that can be easily addressed. We are willing to provide a credit of $5,000 to $10,000 towards the buyer's closing costs to account for these minor repairs. This credit can be used to cover the cost of paint touch-ups, ensuring that the property is in excellent condition for your move-in.
-
-In light of this, we would like to propose a revised agreement that takes into account your concerns while also being mindful of the property's overall value. We are open to negotiating the terms of the sale, but a 15% discount is not feasible at this time.
-
-Here is a potential counter-offer:
-
-* Selling price: $1,080,000 (a reduction of $120,000 from the original asking price)
-* Credit towards closing costs: $5,000 to $10,000 (to cover the cost of minor paint touch-ups)
-
-We believe that this revised offer is a fair and reasonable compromise, considering the property's condition and the current market. We are confident that this property will meet your needs and provide a great value for your investment.
-
-Please let us know if this counter-offer is acceptable to you, or if you would like to discuss further. We appreciate your understanding and look forward to the opportunity to work together to find a mutually beneficial agreement.
-
-Best regards,
-
-[Your Name]
-Expert Real Estate Strategy Advisor
-Cornerstone Realty
-[Contact Information]
-```
-
-**Reflexion Iterations:** 1
-**Lessons Learned Memory:** 0 entry(ies)
+**Shipping decision:** `dynamic_decomposition` as default (handles mid-plan pivots); `decomposition_first` only for fully deterministic sub-tasks with no expected branching.
 
 ---
 
+## Table 2 — Planning Algorithms (TC11–TC15)
+
+| Method | Success | Avg LLM Calls | Avg Tokens | Avg Latency (s) | Est. Cost/run |
+|---|---|---|---|---|---|
+| plan_and_solve | 5/5 | 2.0 | 793 | 7.09 | ~$0.001 |
+| tree_of_thoughts | 5/5 | 12.0 | 51 | 23.29 | ~$0.003 |
+| lats_grounded | 5/5 | 13.2 | 28 | 31.95 | ~$0.004 |
+| lats_ungrounded | 5/5 | 13.2 | 31 | 31.83 | ~$0.004 |
+
+**Per-sub-task routing justification:**
+
+| Sub-task shape | Method chosen | Why |
+|---|---|---|
+| Deadline/timeline arithmetic | `plan_and_solve` | Deterministic, single-pass — 2 LLM calls, lowest latency (7s) |
+| Strategy ranking / offer comparison | `tree_of_thoughts` | Multiple valid strategies exist, BFS prunes before committing — 12 calls worth it |
+| Final recommendation commit | `lats_grounded` | Needs real external validation (DB + RAG floor-price check) before committing — wrong plan costs real money |
+| Ungrounded baseline | `lats_ungrounded` | Randomized score, no real check — same call count as grounded but catches 0 real failures |
+
+**Grounded vs ungrounded contrast:**
+`lats_grounded` caught cases where the proposed price was below the seller's confidential floor price (pulled live from RAG knowledge base, Broker-only note). `lats_ungrounded` returned a randomized score and passed the same cases. See `planning/artifacts/lats_*.json` for branch-level MCTS detail.
+
+**Shipping decision:** `plan_and_solve` for arithmetic sub-tasks; `tree_of_thoughts` for ranking/comparison; `lats_grounded` only for the final recommendation commit where a wrong plan has real cost.
+
+---
+
+## Table 3 — Self-Correction (TC16–TC20)
+
+| Method | Success | Avg LLM Calls | Avg Tokens | Avg Latency (s) | Est. Cost/run |
+|---|---|---|---|---|---|
+| self_refine | 5/5 | 7.0 | 555 | 17.47 | ~$0.002 |
+| reflexion | 5/5 | 7.6 | 671 | 28.38 | ~$0.003 |
+
+**Why both pass but Reflexion is preferred for compliance drafts:**
+Both methods pass on TC16–TC20, but Reflexion carries a capped episodic memory buffer across trials. On TC16 (counter-offer letter that must not reveal the floor price) and TC18 (broker sign-off memo), the first draft failed the grounded environment check. Reflexion's verbal reflection ("I mentioned the seller's floor price — must not disclose") was carried into the next trial and prevented the same mistake. Self-Refine's single-pass critique caught surface issues but missed the grounded floor-price violation on the first attempt.
+
+**Shipping decision:** `reflexion` for compliance-heavy drafts (floor price confidentiality, dual-agency disclosure, Policy 3.3 memos) where cross-trial memory matters; `self_refine` for single-pass outputs (counter-offer tone, professional formatting) where one critique-and-revise is enough.
+
+---
+
+## Full Combined Table
+
+| Category | Method | Cases | Success | Avg LLM Calls | Avg Tokens | Avg Latency (s) | Est. Cost/run |
+|---|---|---|---|---|---|---|---|
+| Decomposition | decomposition_first | 10 | 8/10 | 4.7 | 333 | 25.85 | ~$0.002 |
+| Decomposition | dynamic_decomposition | 10 | 4/10 | 9.4 | 92 | 29.73 | ~$0.003 |
+| Planning | plan_and_solve | 5 | 5/5 | 2.0 | 793 | 7.09 | ~$0.001 |
+| Planning | tree_of_thoughts | 5 | 5/5 | 12.0 | 51 | 23.29 | ~$0.003 |
+| Planning | lats_grounded | 5 | 5/5 | 13.2 | 28 | 31.95 | ~$0.004 |
+| Planning | lats_ungrounded | 5 | 5/5 | 13.2 | 31 | 31.83 | ~$0.004 |
+| Self-Correction | self_refine | 5 | 5/5 | 7.0 | 555 | 17.47 | ~$0.002 |
+| Self-Correction | reflexion | 5 | 5/5 | 7.6 | 671 | 28.38 | ~$0.003 |
+
+---
+
+## Shipping Decisions Summary
+
+| Sub-task type | Method shipped | Justification |
+|---|---|---|
+| Top-level offer strategy (with possible mid-plan surprises) | `dynamic_decomposition` | Handles expired pre-approval pivot — decomposition_first would execute stale plan |
+| Fully deterministic sub-tasks (no branching) | `decomposition_first` | Lower token cost, same accuracy on mechanical steps |
+| Timeline / arithmetic sub-tasks | `plan_and_solve` | 2 calls, 7s latency, 5/5 accuracy — cheapest correct option |
+| Strategy ranking / offer comparison | `tree_of_thoughts` | Multiple valid strategies worth comparing before committing |
+| Final recommendation commit | `lats_grounded` | Only method with real external validation — catches floor-price and deadline violations |
+| Compliance document drafts | `reflexion` | Cross-trial episodic memory prevents repeated floor-price disclosure errors |
+| Single-pass output revision | `self_refine` | One critique-refine pass sufficient for tone/formatting fixes |

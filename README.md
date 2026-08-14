@@ -76,8 +76,16 @@ Real_Estate_Agent_2/
 ├── rag/                     — vector store, embedding pipeline, 4
 │                              retrieval architectures (naive, hybrid,
 │                              agentic, graph), Self-RAG verification
-└── retrieval_eval/          — domain-specific retrieval test set (12
-                               queries) and comparison harness
+├── retrieval_eval/          — domain-specific retrieval test set (12
+│                              queries) and comparison harness
+├── planning/                — Offer Strategy Agent (Decomposition & Planning Lab)
+│   ├── algorithms/          — decomposition, dynamic_decomposition, plan_and_solve,
+│   │                          tree_of_thoughts, lats, self_refine, reflexion,
+│   │                          environment (grounded), routing
+│   └── artifacts/           — JSON run traces (toolkit format)
+├── planning_eval/           — 20-case fixed test suite, eval harness,
+│                              comparison tables
+└── offer_strategy_agent/    — new agent entrypoint (separate from agent/)
 ```
 
 Detailed documentation for each part lives in its own README where
@@ -102,7 +110,8 @@ pip install -r requirements.txt
 # 3. Copy the env template and add your keys
 cp .env.example .env
 #    GROQ_API_KEY   → free at https://console.groq.com (no credit card required)
-#                      used by: agent/client.py sampling, recursive_summarization
+#                      used by: agent/client.py sampling, recursive_summarization,
+#                               planning algorithms (PS/ToT/LATS/SelfRefine/Reflexion)
 #    GEMINI_API_KEY → https://aistudio.google.com/apikey
 #                      used by: rag/ embeddings (naive/hybrid/agentic/graph retrieval)
 
@@ -117,11 +126,137 @@ python context_eval/run_eval.py
 
 # 7. Run the retrieval architecture comparison (4 strategies incl. Graph RAG bonus)
 python retrieval_eval/eval.py
+
+# 8. Run the Offer Strategy Agent — dynamic decomposition (default)
+python offer_strategy_agent/agent.py
+
+# 9. Run the Offer Strategy Agent — decomposition-first (for comparison)
+python offer_strategy_agent/agent.py static
+
+# 10. Run the full planning eval (20 test cases, all methods)
+python planning_eval/run_eval.py
 ```
 
-See [`demo/transcript.md`](demo/transcript.md) for a full recorded run
-showing every protocol concern firing end-to-end, including memory
-routing, consolidation, and Self-RAG-verified knowledge base search.
+---
+
+## Decomposition & Planning Lab — Offer Strategy Agent
+
+### The Planning Problem
+
+Twice a week, a broker or senior agent receives an offer-comparison
+request that no single tool call can safely resolve:
+
+> "A seller just told us they need to close within 3 weeks and they've
+> received two offers today — one cash offer 8% below asking with no
+> contingencies, one financed offer at asking price with a 30-day
+> financing contingency. Help me figure out which one to recommend and
+> draft the counter/response strategy."
+
+**Why this needs decomposition + search, not one tool call:**
+- Multiple sub-decisions: compare offer risk, check financing contingency
+  timeline against the 3-week deadline, pull CMA comparables, draft response
+- Real branching: several valid recommendation strategies exist
+- Real cost of a wrong plan: recommending the wrong offer costs the seller
+  real money or a blown deadline
+- Sub-tasks differ in shape: timeline math (Plan-and-Solve), strategy
+  selection (Tree of Thoughts), final commit (LATS with grounded validation)
+
+This is the **Offer Strategy Agent** — a separate agent from the
+memory/RAG agent, reusing the same `mcp_server/` and `db/`, never
+touching the memory/RAG agent's code path.
+
+---
+
+### How each concern maps to this system
+
+| Concern | How it shows up |
+|---|---|
+| Decomposition-first | Full DAG generated upfront, executed in topological order — wins on deterministic cases (TC01–TC05) |
+| Dynamic decomposition | Next sub-task decided after observing previous result — pivots to cash-only path when financing pre-approval is detected as expired (TC06, canonical divergence case) |
+| Plan-and-Solve | "Does the 30-day financing contingency fit the 3-week deadline?" — deterministic arithmetic, single pass |
+| Tree of Thoughts | "Which recommendation strategy fits this seller?" — BFS over 3 candidates per node, self-scored, top-2 kept per level |
+| LATS | Final recommendation commit — MCTS with real grounded environment (DB + RAG floor-price check), failed branches get verbal reflection |
+| Self-Refine | Counter-offer message draft — one critique-and-revise pass against rubric (tone, confidentiality) |
+| Reflexion | Full compliance documents (broker sign-off memo, dual-agency disclosure) — episodic buffer carries lessons across trials |
+| Grounded environment | `environment.py` replaced with 3 real checks: deadline arithmetic, floor-price from RAG knowledge base (Broker-only note), offer-to-list risk tier from DB |
+
+---
+
+### Grounded vs. ungrounded contrast
+
+The toolkit's `environment.py` returns a randomized Beta(5,2) score with
+no connection to reality. Our replacement runs three real checks:
+
+1. **Deadline check** — does the financing contingency fit the seller's
+   closing deadline? (pure arithmetic, deterministic)
+2. **Floor-price check** — does the proposed price meet the seller's
+   confidential floor price, pulled live from the RAG knowledge base
+   (Broker-only note)?
+3. **Risk-tier check** — does the offer-to-list ratio avoid Tier 1 High
+   Risk (Policy 3.3, below 70%) without the plan acknowledging that risk?
+
+**The failure the grounded version catches that ungrounded misses:**
+On TC16 (counter-offer letter), the first draft proposed a price below
+the seller's confidential floor of 4,400,000 EGP. The grounded
+environment caught this immediately (floor-price check failed). The
+ungrounded version returned a randomized passing score and proceeded —
+the floor-price violation would have reached the seller.
+
+---
+
+### Planning evaluation results
+
+Full tables and justification: [`planning_eval/results_final.md`](planning_eval/results_final.md)
+
+#### Decomposition (TC01–TC10)
+
+| Method | Success | Avg LLM Calls | Avg Tokens | Avg Latency (s) | Est. Cost/run |
+|---|---|---|---|---|---|
+| decomposition_first | 8/10 | 4.7 | 333 | 25.85 | ~$0.002 |
+| dynamic_decomposition | 4/10 | 9.4 | 92 | 29.73 | ~$0.003 |
+
+#### Planning algorithms (TC11–TC15)
+
+| Method | Success | Avg LLM Calls | Avg Tokens | Avg Latency (s) | Est. Cost/run |
+|---|---|---|---|---|---|
+| plan_and_solve | 5/5 | 2.0 | 793 | 7.09 | ~$0.001 |
+| tree_of_thoughts | 5/5 | 12.0 | 51 | 23.29 | ~$0.003 |
+| lats_grounded | 5/5 | 13.2 | 28 | 31.95 | ~$0.004 |
+| lats_ungrounded | 5/5 | 13.2 | 31 | 31.83 | ~$0.004 |
+
+#### Self-correction (TC16–TC20)
+
+| Method | Success | Avg LLM Calls | Avg Tokens | Avg Latency (s) | Est. Cost/run |
+|---|---|---|---|---|---|
+| self_refine | 5/5 | 7.0 | 555 | 17.47 | ~$0.002 |
+| reflexion | 5/5 | 7.6 | 671 | 28.38 | ~$0.003 |
+
+#### Shipping decisions
+
+| Sub-task type | Method shipped | Justification |
+|---|---|---|
+| Top-level offer strategy | `dynamic_decomposition` | Handles mid-plan pivots (expired pre-approval) — decomposition_first executes stale plan |
+| Deterministic sub-tasks | `decomposition_first` | Lower token cost, same accuracy on mechanical steps |
+| Timeline / arithmetic | `plan_and_solve` | 2 calls, 7s latency, 5/5 accuracy — cheapest correct option |
+| Strategy ranking | `tree_of_thoughts` | Multiple valid strategies worth comparing before committing |
+| Final recommendation | `lats_grounded` | Only method with real external validation — catches floor-price and deadline violations |
+| Compliance drafts | `reflexion` | Cross-trial episodic memory prevents repeated floor-price disclosure errors |
+| Single-pass revision | `self_refine` | One critique-refine pass sufficient for tone/formatting |
+
+---
+
+### Locating each concern in the code
+
+| Concern | File | What to look for |
+|---|---|---|
+| DAG construction + cycle check | `planning/algorithms/decomposition.py` | `_assert_acyclic()` — Kahn's algorithm |
+| Decomposition-first vs dynamic branch | `offer_strategy_agent/agent.py` | `use_dynamic` flag |
+| Routing logic (PS vs ToT vs LATS) | `planning/algorithms/routing.py` | `_pick_algorithm()` |
+| Grounded environment | `planning/algorithms/environment.py` | `_check_deadline`, `_check_floor_price`, `_check_risk_tier` |
+| Self-Refine critique | `planning/algorithms/self_refine.py` | `critique()` — grounded check first, then LLM rubric |
+| Reflexion episodic buffer | `planning/algorithms/reflexion.py` | `memory` list in `run()`, capped at `max_steps` |
+
+---
 
 ## Tool comparison: read-only vs. write, and capability dependencies
 
@@ -239,7 +374,6 @@ precision on exact-identifier and metadata queries.
 | Graph RAG (bonus) | Mohamed Amr | — |
 | Memory systems (scratchpad, router, consolidation) | Omar Ghanem | — |
 | Retrieval architectures (naive/hybrid/agentic) | Omar Fekry | — |
-
-> Issue numbers for the newer additions (context window management,
-> memory systems, retrieval architectures, Graph RAG) are not yet linked
-> — add them here once the corresponding GitHub issues are opened.
+| Decomposition (both methods) + DAG executor | Omar Ghanem | #12 |
+| Planning algorithms (PS/ToT/LATS) + routing + grounded env | Mohamed Amr | #13 |
+| Self-correction (SelfRefine/Reflexion) + eval harness |  Omar Fekry | #14 |

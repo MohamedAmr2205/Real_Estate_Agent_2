@@ -1,0 +1,407 @@
+[
+  {
+    "id": "TC01",
+    "category": "favors_decomposition_first",
+    "note": "Fully deterministic — no mid-plan surprises possible. Decomposition-first should win.",
+    "request": "A seller has received one offer: cash at 92% of asking, no contingencies, 2-week close. Calculate whether this clears the 85% policy threshold, determine the risk tier, and recommend accept or counter.",
+    "context": {
+      "property_id": 1,
+      "offer_id": 1,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "seller_deadline_weeks": 2,
+      "financing_contingency_days": 0,
+      "proposed_action": "accept",
+      "proposed_price": 4600000,
+      "acknowledges_tier1_risk": false
+    },
+    "expected_decision": "accept",
+    "expected_policy": "Policy 2.1 — no broker approval needed (offer >= 85%)",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC02",
+    "category": "favors_decomposition_first",
+    "note": "Straightforward risk-tier arithmetic. Single-pass plan-and-solve is optimal.",
+    "request": "Offer of 3,200,000 on a property listed at 5,000,000. What risk tier applies and what approvals are needed before forwarding to the seller?",
+    "context": {
+      "property_id": 1,
+      "offer_id": 3,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "seller_deadline_weeks": 4,
+      "financing_contingency_days": 21,
+      "proposed_action": "counter",
+      "proposed_price": 3200000,
+      "acknowledges_tier1_risk": true
+    },
+    "expected_decision": "broker_approval_required",
+    "expected_policy": "Policy 3.2b + 3.3 — Tier 1 High Risk, broker sign-off + buyer memo",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC03",
+    "category": "favors_decomposition_first",
+    "note": "Commission split arithmetic — deterministic, single-pass.",
+    "request": "Property sold at 4,200,000 EGP. Calculate the listing agent commission and buyer's agent commission under Policy 1.3, then confirm both amounts.",
+    "context": {
+      "property_id": 2,
+      "offer_id": null,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "proposed_action": "counter",
+      "proposed_price": 4200000
+    },
+    "expected_decision": "listing_commission_105000_buyers_84000",
+    "expected_policy": "Policy 1.3 — 2.5% listing, 2.0% buyer",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC04",
+    "category": "favors_decomposition_first",
+    "note": "Pre-closing checklist — fixed policy steps, no branching.",
+    "request": "A villa in Smouha had a roof flagged during walkthrough. List every pre-closing step the agent must complete before the closing date can be set, referencing the exact policy sections.",
+    "context": {
+      "property_id": 1,
+      "offer_id": 1,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "proposed_action": "counter"
+    },
+    "expected_decision": "inspection_report_required",
+    "expected_policy": "Policy 6.1 / 6.2 / 6.3",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC05",
+    "category": "favors_decomposition_first",
+    "note": "Dual-agency disclosure check — deterministic rule lookup.",
+    "request": "An agent wants to represent both buyer and seller on property 1. What does Section 4.1 require before any negotiation begins?",
+    "context": {
+      "property_id": 1,
+      "offer_id": null,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "proposed_action": "counter"
+    },
+    "expected_decision": "written_consent_both_parties_required",
+    "expected_policy": "Section 4.1 — Dual Agency Disclosure",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC06",
+    "category": "favors_dynamic",
+    "note": "CANONICAL DIVERGENCE CASE — financing pre-approval is expired. Dynamic decomposition must pivot to cash-only path. Decomposition-first will blindly evaluate the financed offer.",
+    "request": "A seller needs to close within 3 weeks and has two offers: (1) cash at 8% below asking, no contingencies; (2) financed at full asking with a 30-day financing contingency. Recommend which to accept.",
+    "context": {
+      "property_id": 1,
+      "offer_id": 3,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "seller_deadline_weeks": 3,
+      "financing_contingency_days": 30,
+      "proposed_action": "accept",
+      "proposed_price": 4600000,
+      "acknowledges_tier1_risk": false,
+      "financing_pre_approval_expired": true
+    },
+    "expected_decision": "accept_cash_offer",
+    "expected_policy": "Financing contingency (30d) cannot fit 3-week (21d) deadline — pivot to cash",
+    "financing_pre_approval_expired": true
+  },
+  {
+    "id": "TC07",
+    "category": "favors_dynamic",
+    "note": "Seller rejects first counter mid-plan — dynamic must adjust counter strategy. Static plan has no fallback.",
+    "request": "Seller received an offer at 88% of asking. Draft a counter at 95%, then if seller rejects, propose a second counter at 92% with an extended closing period.",
+    "context": {
+      "property_id": 1,
+      "offer_id": 2,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "seller_deadline_weeks": 4,
+      "financing_contingency_days": 21,
+      "proposed_action": "counter",
+      "proposed_price": 4750000,
+      "acknowledges_tier1_risk": false,
+      "financing_pre_approval_expired": false
+    },
+    "expected_decision": "counter_95_then_92_extended_close",
+    "expected_policy": "Policy 5.4 — counter floor guidance",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC08",
+    "category": "favors_dynamic",
+    "note": "Inspection reveals 60,000 EGP repair cost mid-plan — triggers Policy 6.3 renegotiation path.",
+    "request": "Property 1 is under contract. During inspection, a structural issue is found. Guide the agent through the next steps, adapting if repair costs exceed the Policy 6.3 threshold.",
+    "context": {
+      "property_id": 1,
+      "offer_id": 1,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "proposed_action": "counter",
+      "proposed_price": 4800000,
+      "acknowledges_tier1_risk": false,
+      "financing_pre_approval_expired": false
+    },
+    "expected_decision": "renegotiate_or_repair_escrow",
+    "expected_policy": "Policy 6.3 — repair cost exceeds 50,000 EGP threshold",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC09",
+    "category": "favors_dynamic",
+    "note": "Buyer withdraws financing mid-negotiation — agent must pivot to alternate buyer outreach.",
+    "request": "A financed offer was accepted but the buyer's lender declined the loan on day 15. The seller has 2 weeks left on their relocation deadline. What should the agent do next?",
+    "context": {
+      "property_id": 1,
+      "offer_id": 3,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "seller_deadline_weeks": 2,
+      "financing_contingency_days": 30,
+      "proposed_action": "reject",
+      "proposed_price": 5000000,
+      "financing_pre_approval_expired": true
+    },
+    "expected_decision": "reopen_listing_target_cash_buyers",
+    "expected_policy": "Policy 7.1 — escrow void, reopen listing",
+    "financing_pre_approval_expired": true
+  },
+  {
+    "id": "TC10",
+    "category": "favors_dynamic",
+    "note": "Two offers arrive simultaneously — ranking depends on live CMA data retrieved mid-plan.",
+    "request": "Two offers arrived simultaneously on property 1: offer A at 4,800,000 cash, offer B at 5,100,000 financed 45-day contingency. Run a CMA first, then recommend which to pursue based on market data.",
+    "context": {
+      "property_id": 1,
+      "offer_id": 2,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "seller_deadline_weeks": 5,
+      "financing_contingency_days": 45,
+      "proposed_action": "counter",
+      "proposed_price": 4800000,
+      "financing_pre_approval_expired": false
+    },
+    "expected_decision": "depends_on_cma_result",
+    "expected_policy": "CMA-driven — Policy 2.1 + 2.4",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC11",
+    "category": "needs_lookahead_search",
+    "note": "Multiple negotiation strategies exist — Tree of Thoughts should explore and prune.",
+    "request": "Seller has rejected two offers in 30 days. Propose the optimal negotiation strategy considering: broker-to-broker call, price reduction, closing cost concessions, or extended close period.",
+    "context": {
+      "property_id": 1,
+      "offer_id": 2,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "seller_deadline_weeks": 4,
+      "financing_contingency_days": 21,
+      "proposed_action": "counter",
+      "proposed_price": 4600000,
+      "acknowledges_tier1_risk": false
+    },
+    "expected_decision": "broker_to_broker_call_then_counter",
+    "expected_policy": "Policy 5.2 + 5.4",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC12",
+    "category": "needs_lookahead_search",
+    "note": "Counter-offer amount selection — multiple valid amounts, ToT should rank and pick best.",
+    "request": "Buyer offered 4,100,000 on a property listed at 5,000,000. Generate and evaluate 3 counter-offer amounts (95%, 93%, 90% of list) and recommend the best one given the seller's 4-week deadline.",
+    "context": {
+      "property_id": 1,
+      "offer_id": 2,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "seller_deadline_weeks": 4,
+      "financing_contingency_days": 21,
+      "proposed_action": "counter",
+      "proposed_price": 4750000,
+      "acknowledges_tier1_risk": false
+    },
+    "expected_decision": "counter_at_4750000",
+    "expected_policy": "Policy 5.4 — counter floor 90%",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC13",
+    "category": "needs_lookahead_search",
+    "note": "Offer risk ranking across 3 offers — needs structured comparison before committing.",
+    "request": "Three offers received on property 1: (A) 4,200,000 cash 2-week close, (B) 4,800,000 financed 30-day contingency, (C) 5,000,000 financed 45-day contingency. Rank by seller benefit and recommend.",
+    "context": {
+      "property_id": 1,
+      "offer_id": 1,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "seller_deadline_weeks": 3,
+      "financing_contingency_days": 30,
+      "proposed_action": "accept",
+      "proposed_price": 4200000,
+      "acknowledges_tier1_risk": false
+    },
+    "expected_decision": "accept_offer_A_cash",
+    "expected_policy": "Deadline constraint eliminates B and C",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC14",
+    "category": "needs_lookahead_search",
+    "note": "Seller concession strategy — multiple combinations to explore before committing.",
+    "request": "Buyer is firm at 4,400,000 on a 5,000,000 property. Seller wants to move. Explore: (1) price reduction only, (2) closing cost split, (3) repair escrow credit. Which concession package maximizes net proceeds?",
+    "context": {
+      "property_id": 1,
+      "offer_id": 2,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "seller_deadline_weeks": 6,
+      "financing_contingency_days": 30,
+      "proposed_action": "counter",
+      "proposed_price": 4400000,
+      "acknowledges_tier1_risk": false
+    },
+    "expected_decision": "closing_cost_split_best_net",
+    "expected_policy": "Policy 5.4 — agent must not advise below 90% floor",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC15",
+    "category": "needs_lookahead_search",
+    "note": "Listing price adjustment strategy — ToT explores multiple price points.",
+    "request": "Property has been on market 60 days with no offers above 85% of list. Explore price reduction strategies of 5%, 8%, and 12% and recommend which positions the property best for a quick sale.",
+    "context": {
+      "property_id": 2,
+      "offer_id": null,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "proposed_action": "counter",
+      "proposed_price": 3990000
+    },
+    "expected_decision": "reduce_8_percent",
+    "expected_policy": "Policy 3.2b threshold consideration",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC16",
+    "category": "needs_reflexion",
+    "note": "Counter-offer letter that repeatedly violates floor-price disclosure rule — single retry never catches it, Reflexion's cross-trial memory must fix it.",
+    "request": "Draft a counter-offer letter to a buyer who offered 3,800,000 on a 5,000,000 property. The letter must not reveal the seller's floor price of 4,400,000 but must propose a counter at 4,700,000.",
+    "context": {
+      "property_id": 1,
+      "offer_id": 2,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "seller_deadline_weeks": 3,
+      "financing_contingency_days": 21,
+      "proposed_action": "counter",
+      "proposed_price": 4700000,
+      "acknowledges_tier1_risk": false
+    },
+    "rubric": [
+      "Must NOT mention, hint at, or reveal the seller's floor price (4,400,000 EGP)",
+      "Must propose a counter-offer price of 4,700,000 EGP explicitly",
+      "Must maintain a professional and polite tone throughout",
+      "Must reference the 48-hour response window per Policy 2.4"
+    ],
+    "expected_decision": "counter_letter_compliant",
+    "expected_policy": "Policy 2.4 + floor price confidentiality",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC17",
+    "category": "needs_reflexion",
+    "note": "Dual-agency disclosure letter that initially omits the conflict-of-interest clause — Reflexion memory carries the lesson across trials.",
+    "request": "Draft a dual-agency disclosure letter for property 1 where the agent represents both buyer and seller. Must comply fully with Section 4.1.",
+    "context": {
+      "property_id": 1,
+      "offer_id": null,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "proposed_action": "counter"
+    },
+    "rubric": [
+      "Must obtain written consent from BOTH buyer and seller before any negotiation",
+      "Must include a full written disclosure of any potential conflict of interest",
+      "Must not begin negotiation until both parties have signed the disclosure",
+      "Must reference Section 4.1 of the agency agreement explicitly"
+    ],
+    "expected_decision": "dual_agency_letter_compliant",
+    "expected_policy": "Section 4.1",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC18",
+    "category": "needs_reflexion",
+    "note": "Broker sign-off memo for Tier 1 offer — first attempt always omits the buyer justification memo attachment. Needs cross-trial memory to fix.",
+    "request": "Draft the broker sign-off memo for an offer of 3,200,000 on a 5,000,000 property. Must comply with Policy 3.2b and Policy 3.3 Tier 1 requirements.",
+    "context": {
+      "property_id": 1,
+      "offer_id": 3,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "proposed_action": "counter",
+      "proposed_price": 3200000,
+      "acknowledges_tier1_risk": true
+    },
+    "rubric": [
+      "Must reference Policy 3.2b — offer is below 85% of list price",
+      "Must reference Policy 3.3 — offer is below 70% list (Tier 1 High Risk)",
+      "Must attach or reference the buyer justification memo",
+      "Must be logged in the transaction record within 24 hours"
+    ],
+    "expected_decision": "broker_memo_compliant",
+    "expected_policy": "Policy 3.2b + 3.3",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC19",
+    "category": "needs_reflexion",
+    "note": "Escrow failure notice — early drafts omit the deposit forfeiture clause. Reflexion memory fixes across trials.",
+    "request": "Draft the escrow failure notice for a buyer who missed the 5-day escrow funding deadline on property 1 (Clause 7 of the Smouha Villa contract).",
+    "context": {
+      "property_id": 1,
+      "offer_id": 1,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "proposed_action": "reject",
+      "proposed_price": 5000000
+    },
+    "rubric": [
+      "Must reference Clause 7 of the Smouha villa contract explicitly",
+      "Must state that the purchase agreement is void",
+      "Must state that the buyer's good-faith deposit is forfeited",
+      "Must reference Policy 7.1 for the escrow deadline rule"
+    ],
+    "expected_decision": "escrow_notice_compliant",
+    "expected_policy": "Clause 7 + Policy 7.1",
+    "financing_pre_approval_expired": false
+  },
+  {
+    "id": "TC20",
+    "category": "needs_reflexion",
+    "note": "Repair-escrow trigger letter — initial drafts miss the 50,000 EGP threshold citation. Reflexion needed to anchor the lesson across trials.",
+    "request": "An inspection on property 1 estimated repair costs at 65,000 EGP. Draft the repair-escrow trigger letter to the seller explaining why the transaction cannot close as-is.",
+    "context": {
+      "property_id": 1,
+      "offer_id": 1,
+      "city": "Alexandria",
+      "caller_agent_id": 1,
+      "proposed_action": "counter",
+      "proposed_price": 4935000
+    },
+    "rubric": [
+      "Must cite Policy 6.3 and the 50,000 EGP threshold explicitly",
+      "Must state that the transaction cannot close until escrow is funded or price is renegotiated",
+      "Must give the seller both options: fund repair escrow OR renegotiate price",
+      "Must state the estimated repair cost of 65,000 EGP clearly"
+    ],
+    "expected_decision": "repair_escrow_letter_compliant",
+    "expected_policy": "Policy 6.3",
+    "financing_pre_approval_expired": false
+  }
+]
