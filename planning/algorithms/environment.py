@@ -46,13 +46,15 @@ pass or a fail) — `score` is the fraction of *applicable* checks passed.
 the candidate is marked unsuccessful with a clear reason rather than
 silently defaulting to a pass.
 
-IMPORT PATH NOTE: this file lives at planning_lab/algorithms/environment.py.
-`db.py` and `rag/` are NOT at the repo root — they live inside
-mcp_server/ (mcp_server/db.py, mcp_server/rag/knowledge_base.py), same
-as every other tool file in this project imports them. So instead of
-adding the repo root to sys.path, we add repo_root/mcp_server — matching
-the exact import style (`from db import ...`, `from rag.knowledge_base
-import ...`) already used throughout mcp_server/tools/*.py.
+IMPORT PATH NOTE: this module is imported from the repository root in
+normal usage, and it also runs standalone from the `planning/` tree. The
+real project layout is:
+
+  - repo_root/rag/knowledge_base.py
+  - repo_root/mcp_server/db.py
+
+so we add both the repo root and the mcp_server directory to sys.path and
+import the modules in the style already used across the project.
 """
 
 from __future__ import annotations
@@ -63,19 +65,24 @@ import sys
 from pathlib import Path
 from typing import Any
 
-# planning_lab/algorithms/environment.py -> parents[2] = repo root
+# planning/algorithms/environment.py -> parents[2] = repo root
 REPO_ROOT = Path(__file__).resolve().parents[2]
 MCP_SERVER_DIR = REPO_ROOT / "mcp_server"
-if str(MCP_SERVER_DIR) not in sys.path:
-    sys.path.insert(0, str(MCP_SERVER_DIR))
+for entry in (REPO_ROOT, MCP_SERVER_DIR):
+    path = str(entry)
+    if path not in sys.path:
+        sys.path.insert(0, path)
 
 from db import get_connection
-from rag.knowledge_base import search_knowledge_base as _kb_search
 from rag.knowledge_base import index_property_notes as _ensure_kb_indexed
+from rag.knowledge_base import search_knowledge_base as _kb_search
 
 _ensure_kb_indexed()  # defensive: this Environment can run standalone,
-                       # not only after mcp_server/server.py's startup
-from ..models import EnvironmentFeedback
+                    # not only after mcp_server/server.py's startup
+try:
+    from models import EnvironmentFeedback
+except ModuleNotFoundError:  # pragma: no cover - fallback when imported as a loose script
+    from models import EnvironmentFeedback
 
 # Broker agent_id — matches mcp_server/server.py's accept_offer /
 # assign_listing_agent authorization checks and rag/knowledge_base.py's

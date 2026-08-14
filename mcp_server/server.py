@@ -43,7 +43,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from rag.knowledge_base import index_property_notes, search_knowledge_base as _kb_search
-
+from rag.query_decomposition import decompose_and_search as _decompose_search
 # ---------------------------------------------------------------------------
 # Pydantic model for the elicitation schema (SECTION 5 uses this).
 # ctx.elicit() in this mcp SDK version requires a real pydantic BaseModel,
@@ -302,6 +302,24 @@ def search_knowledge_base(query: str, property_id: int, caller_agent_id: int,
         return _kb_search(query, property_id, caller_agent_id, top_k)
     except ValueError as e:
         return {"error": str(e)}
+
+        # ---------------------------------------------------------------------------
+# SECTION 12 — decompose_and_search : ADD-ON LAB (Option A — Query Decomposition)
+# ---------------------------------------------------------------------------
+# Wraps search_knowledge_base (SECTION 10) — does not replace it. One real
+# LLM call (Groq) splits a compound query into 2-4 sub-questions, each is
+# searched via the existing tool (same role filtering + Self-RAG
+# verification applies per sub-question), and the tagged chunks are
+# returned combined — merging into a final answer is left to the model.
+@mcp.tool()
+def decompose_and_search(query: str, property_id: int, caller_agent_id: int,
+                          top_k: int = 3) -> dict:
+    """
+    Break a compound question into 2-4 sub-questions, search
+    search_knowledge_base once per sub-question, and return the combined
+    chunks tagged with which sub-question each answers.
+    """
+    return _decompose_search(query, _kb_search, property_id, caller_agent_id, top_k)
 
 
 # ---------------------------------------------------------------------------

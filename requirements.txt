@@ -1,3 +1,5 @@
 mcp<2
 jsonschema
 openai
+langchain-groq
+langchain-core
