@@ -18,9 +18,14 @@ Person 2 owns this file.
 from __future__ import annotations
 from typing import Any
 
-from plan_and_solve import plan_and_solve
-from tree_of_thoughts import tree_of_thoughts
-from lats import lats
+try:
+    from planning.algorithms.plan_and_solve import plan_and_solve
+    from planning.algorithms.tree_of_thoughts import tree_of_thoughts
+    from planning.algorithms.lats import lats
+except ModuleNotFoundError:  # direct script execution fallback
+    from plan_and_solve import plan_and_solve
+    from tree_of_thoughts import tree_of_thoughts
+    from lats import lats
 
 # ---------------------------------------------------------------------------
 # Keyword signals for each algorithm
