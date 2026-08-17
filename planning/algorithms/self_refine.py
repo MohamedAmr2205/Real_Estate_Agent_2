@@ -31,7 +31,7 @@ class SelfRefine:
       catches that the ungrounded version misses.
     """
 
-    def __init__(self, model_name: str = "llama-3.3-70b-versatile"):
+    def __init__(self, model_name: str = "openai/gpt-oss-120b"):
         self.client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
         self.model_name = model_name
 

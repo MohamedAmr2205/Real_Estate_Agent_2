@@ -53,7 +53,7 @@ from langchain_groq import ChatGroq
 
 def _get_llm() -> ChatGroq:
     return ChatGroq(
-        model="llama-3.3-70b-versatile",
+        model="openai/gpt-oss-120b",
         api_key=os.environ.get("GROQ_API_KEY"),
         temperature=0.1,
     )
