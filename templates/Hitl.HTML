@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meridian Realty — HITL Tasks</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; }
+        .header { background: #1a1a2e; color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .header h1 { font-size: 20px; }
+        .header a { color: #a0aec0; text-decoration: none; font-size: 14px; }
+        .nav { background: white; border-bottom: 1px solid #e2e8f0; padding: 0 24px; display: flex; gap: 4px; }
+        .nav a { padding: 14px 16px; color: #718096; text-decoration: none; font-size: 14px; border-bottom: 3px solid transparent; }
+        .nav a:hover, .nav a.active { color: #4f46e5; border-bottom-color: #4f46e5; }
+        .content { max-width: 900px; margin: 30px auto; padding: 0 24px; }
+        .section { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 20px; }
+        .section h2 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #1a1a2e; }
+        .task-card { border: 2px solid #fed7d7; border-radius: 10px; padding: 20px; margin-bottom: 16px; background: #fff5f5; }
+        .task-card h3 { font-size: 15px; font-weight: 600; color: #c53030; margin-bottom: 8px; }
+        .task-card p { font-size: 14px; color: #718096; margin-bottom: 12px; }
+        .task-card pre { background: #f7fafc; padding: 12px; border-radius: 8px; font-size: 12px; overflow-x: auto; margin-bottom: 12px; }
+        .actions { display: flex; gap: 10px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; }
+        .btn-green { background: #38a169; color: white; }
+        .btn-red { background: #e53e3e; color: white; }
+        .btn:hover { opacity: 0.9; }
+        .empty { text-align: center; padding: 40px; color: #a0aec0; }
+        .empty h3 { font-size: 18px; margin-bottom: 8px; color: #1a1a2e; }
+        .note { background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #2b6cb0; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🏠 Meridian Realty — HITL Tasks</h1>
+    <a href="/">← User Chat</a>
+</div>
+<div class="nav">
+    <a href="/admin">Dashboard</a>
+    <a href="/admin/tools">Tools</a>
+    <a href="/admin/rag">RAG Documents</a>
+    <a href="/admin/tickets">Tickets</a>
+    <a href="/admin/hitl" class="active">HITL Tasks</a>
+</div>
+
+<div class="content">
+    <div class="note">
+        ℹ️ HITL tasks are graph executions paused waiting for your approval. The graph resumes only after you act here.
+    </div>
+
+    <div class="section">
+        <h2>Pending HITL Tasks</h2>
+        {% if tasks %}
+            {% for task in tasks %}
+            <div class="task-card">
+                <h3>⏸ Task #{{ task.get('id', loop.index) }} — {{ task.get('graph_name', 'Unknown graph') }}</h3>
+                <p><strong>Reason:</strong> {{ task.get('reason', 'Requires human authorization') }}</p>
+                {% if task.get('pending_action') %}
+                <pre>{{ task.pending_action | tojson(indent=2) }}</pre>
+                {% endif %}
+                <div class="actions">
+                    <button class="btn btn-green" onclick="approveTask('{{ task.get('id', loop.index) }}', true)">
+                        ✅ Approve
+                    </button>
+                    <button class="btn btn-red" onclick="approveTask('{{ task.get('id', loop.index) }}', false)">
+                        ❌ Reject
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+        <div class="empty">
+            <h3>✅ No pending HITL tasks</h3>
+            <p>All graph executions are running autonomously.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+async function approveTask(id, approved) {
+    const feedback = approved
+        ? (prompt('Approval note (optional):') || 'Approved by admin')
+        : (prompt('Rejection reason:') || 'Rejected by admin');
+
+    const res = await fetch(`/admin/hitl/${id}/approve`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ approved, feedback })
+    });
+    const data = await res.json();
+    if (data.success) {
+        alert(approved ? '✅ Task approved — graph will resume' : '❌ Task rejected');
+        location.reload();
+    }
+}
+</script>
+</body>
+</html>

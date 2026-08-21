@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meridian Realty — Tickets</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; }
+        .header { background: #1a1a2e; color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .header h1 { font-size: 20px; }
+        .header a { color: #a0aec0; text-decoration: none; font-size: 14px; }
+        .nav { background: white; border-bottom: 1px solid #e2e8f0; padding: 0 24px; display: flex; gap: 4px; }
+        .nav a { padding: 14px 16px; color: #718096; text-decoration: none; font-size: 14px; border-bottom: 3px solid transparent; }
+        .nav a:hover, .nav a.active { color: #4f46e5; border-bottom-color: #4f46e5; }
+        .content { max-width: 1100px; margin: 30px auto; padding: 0 24px; }
+        .filters { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .filter-btn { padding: 8px 16px; border: 2px solid #e2e8f0; border-radius: 20px; cursor: pointer; font-size: 13px; background: white; text-decoration: none; color: #718096; }
+        .filter-btn.active, .filter-btn:hover { border-color: #4f46e5; color: #4f46e5; }
+        .section { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 10px 12px; font-size: 12px; text-transform: uppercase; color: #718096; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 12px; font-size: 14px; border-bottom: 1px solid #f7fafc; vertical-align: top; }
+        tr:last-child td { border-bottom: none; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .badge.open { background: #fed7d7; color: #c53030; }
+        .badge.investigating { background: #fefcbf; color: #744210; }
+        .badge.resolved { background: #c6f6d5; color: #276749; }
+        .btn { padding: 6px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; }
+        .btn-primary { background: #4f46e5; color: white; }
+        .btn-yellow { background: #d69e2e; color: white; }
+        .btn-green { background: #38a169; color: white; }
+        .btn:hover { opacity: 0.9; }
+        .empty { text-align: center; padding: 30px; color: #a0aec0; }
+        code { background: #f7fafc; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🏠 Meridian Realty — Tickets</h1>
+    <a href="/">← User Chat</a>
+</div>
+<div class="nav">
+    <a href="/admin">Dashboard</a>
+    <a href="/admin/tools">Tools</a>
+    <a href="/admin/rag">RAG Documents</a>
+    <a href="/admin/tickets" class="active">Tickets</a>
+    <a href="/admin/hitl">HITL Tasks</a>
+</div>
+
+<div class="content">
+    <div class="filters">
+        <a href="/admin/tickets" class="filter-btn {{ 'active' if not current_status }}">All ({{ (summary.values()|sum) }})</a>
+        <a href="/admin/tickets?status=OPEN" class="filter-btn {{ 'active' if current_status == 'OPEN' }}">🔴 Open ({{ summary.get('OPEN', 0) }})</a>
+        <a href="/admin/tickets?status=INVESTIGATING" class="filter-btn {{ 'active' if current_status == 'INVESTIGATING' }}">🟡 Investigating ({{ summary.get('INVESTIGATING', 0) }})</a>
+        <a href="/admin/tickets?status=RESOLVED" class="filter-btn {{ 'active' if current_status == 'RESOLVED' }}">🟢 Resolved ({{ summary.get('RESOLVED', 0) }})</a>
+    </div>
+
+    <div class="section">
+        {% if tickets %}
+        <table>
+            <tr>
+                <th>#</th><th>Graph</th><th>Node</th><th>Error Type</th>
+                <th>Error</th><th>Status</th><th>Created</th><th>Actions</th>
+            </tr>
+            {% for t in tickets %}
+            <tr id="ticket-{{ t.ticket_id }}">
+                <td><strong>#{{ t.ticket_id }}</strong></td>
+                <td><code>{{ t.graph_name }}</code></td>
+                <td><code>{{ t.node_name }}</code></td>
+                <td><code>{{ t.error_type }}</code></td>
+                <td style="max-width:200px;font-size:12px;color:#718096">{{ t.error_message[:80] }}{% if t.error_message|length > 80 %}...{% endif %}</td>
+                <td><span class="badge {{ t.status.lower() }}" id="badge-{{ t.ticket_id }}">{{ t.status }}</span></td>
+                <td style="font-size:12px;color:#a0aec0">{{ t.created_at[:16] if t.created_at else '—' }}</td>
+                <td>
+                    {% if t.status == 'OPEN' %}
+                    <button class="btn btn-yellow" onclick="updateTicket({{ t.ticket_id }}, 'INVESTIGATING', 'Under investigation')">Investigate</button>
+                    {% elif t.status == 'INVESTIGATING' %}
+                    <button class="btn btn-green" onclick="resolveTicket({{ t.ticket_id }})">Resolve</button>
+                    {% else %}
+                    <span style="color:#a0aec0;font-size:12px">✅ Done</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <div class="empty">No tickets found ✅</div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+async function updateTicket(id, status, resolution) {
+    const res = await fetch(`/admin/tickets/${id}/update`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status, resolution })
+    });
+    const data = await res.json();
+    if (data.success) location.reload();
+}
+
+async function resolveTicket(id) {
+    const resolution = prompt('Resolution note:');
+    if (!resolution) return;
+    await updateTicket(id, 'RESOLVED', resolution);
+}
+</script>
+</body>
+</html>

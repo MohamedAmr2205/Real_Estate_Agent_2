@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meridian Realty — Admin</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; }
+        .header { background: #1a1a2e; color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .header h1 { font-size: 20px; }
+        .header a { color: #a0aec0; text-decoration: none; font-size: 14px; }
+        .header a:hover { color: white; }
+        .nav { background: white; border-bottom: 1px solid #e2e8f0; padding: 0 24px; display: flex; gap: 4px; }
+        .nav a { padding: 14px 16px; color: #718096; text-decoration: none; font-size: 14px; border-bottom: 3px solid transparent; }
+        .nav a:hover, .nav a.active { color: #4f46e5; border-bottom-color: #4f46e5; }
+        .content { max-width: 1100px; margin: 30px auto; padding: 0 24px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 30px; }
+        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+        .card h3 { font-size: 13px; color: #718096; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .card .number { font-size: 32px; font-weight: 700; color: #1a1a2e; }
+        .card .number.red { color: #e53e3e; }
+        .card .number.green { color: #38a169; }
+        .card .number.yellow { color: #d69e2e; }
+        .section { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 20px; }
+        .section h2 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #1a1a2e; display: flex; align-items: center; justify-content: space-between; }
+        .section h2 a { font-size: 13px; color: #4f46e5; text-decoration: none; font-weight: 400; }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 10px 12px; font-size: 12px; text-transform: uppercase; color: #718096; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 12px; font-size: 14px; border-bottom: 1px solid #f7fafc; }
+        tr:last-child td { border-bottom: none; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+        .badge.open { background: #fed7d7; color: #c53030; }
+        .badge.investigating { background: #fefcbf; color: #744210; }
+        .badge.resolved { background: #c6f6d5; color: #276749; }
+        .btn { padding: 8px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; }
+        .btn-primary { background: #4f46e5; color: white; }
+        .btn-primary:hover { background: #3730a3; }
+        .empty { text-align: center; padding: 30px; color: #a0aec0; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🏠 Meridian Realty — Admin Panel</h1>
+    <a href="/">← User Chat</a>
+</div>
+
+<div class="nav">
+    <a href="/admin" class="active">Dashboard</a>
+    <a href="/admin/tools">Tools</a>
+    <a href="/admin/rag">RAG Documents</a>
+    <a href="/admin/tickets">Tickets</a>
+    <a href="/admin/hitl">HITL Tasks</a>
+</div>
+
+<div class="content">
+
+    <!-- Stats -->
+    <div class="grid">
+        <div class="card">
+            <h3>Open Tickets</h3>
+            <div class="number red">{{ summary.get('OPEN', 0) }}</div>
+        </div>
+        <div class="card">
+            <h3>Investigating</h3>
+            <div class="number yellow">{{ summary.get('INVESTIGATING', 0) }}</div>
+        </div>
+        <div class="card">
+            <h3>Resolved</h3>
+            <div class="number green">{{ summary.get('RESOLVED', 0) }}</div>
+        </div>
+        <div class="card">
+            <h3>HITL Pending</h3>
+            <div class="number yellow">{{ hitl_tasks|length }}</div>
+        </div>
+    </div>
+
+    <!-- Recent Tickets -->
+    <div class="section">
+        <h2>Recent Tickets <a href="/admin/tickets">View all →</a></h2>
+        {% if tickets %}
+        <table>
+            <tr><th>#</th><th>Graph</th><th>Node</th><th>Error</th><th>Status</th><th>Action</th></tr>
+            {% for t in tickets %}
+            <tr>
+                <td>#{{ t.ticket_id }}</td>
+                <td>{{ t.graph_name }}</td>
+                <td>{{ t.node_name }}</td>
+                <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ t.error_message }}</td>
+                <td><span class="badge {{ t.status.lower() }}">{{ t.status }}</span></td>
+                <td><a href="/admin/tickets/{{ t.ticket_id }}"><button class="btn btn-primary">View</button></a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <div class="empty">No tickets yet — system is running smoothly ✅</div>
+        {% endif %}
+    </div>
+
+    <!-- Quick Links -->
+    <div class="section">
+        <h2>Quick Actions</h2>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <a href="/admin/tools"><button class="btn btn-primary">🔧 Manage Tools</button></a>
+            <a href="/admin/rag"><button class="btn btn-primary">📄 Manage RAG Docs</button></a>
+            <a href="/admin/tickets?status=OPEN"><button class="btn btn-primary">🎫 Open Tickets</button></a>
+            <a href="/admin/hitl"><button class="btn btn-primary">👤 HITL Tasks</button></a>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
